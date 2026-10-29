@@ -1,0 +1,29 @@
+name: rass_live_legendary
+description: RASS LIVE LEGENDARY - Market se 10x best
+publish_to: 'none'
+version: 1.0.0+5001
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  zego_express_engine: ^3.14.6
+  zego_uikit_prebuilt_live_streaming: ^4.10.1
+  zego_uikit: ^2.13.0
+  lottie: ^3.1.2
+  rive: ^0.12.4
+  audioplayers: ^6.0.0
+  vibration: ^2.0.0
+  confetti: ^0.8.0
+  provider: ^6.1.1
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/gifts/
+    - assets/animations/
+    - assets/sounds/
+    - assets/images/

@@ -1,0 +1,11 @@
+NEED FLUTTER SOURCE CODE TO APPLY THIS UI CHANGE
+
+Reason:
+- libapp.so is AOT compiled from Dart - cannot inject new Dart classes/UI
+- Need pubspec.yaml + lib/ folder with actual .dart files
+- Then add legendary gift system, rebuild and sign APK
+
+Upload original Flutter project as ZIP to:
+  /storage/internal_new/project/rasslive/ORIGINAL_SOURCE.zip
+or extract to:
+  /storage/internal_new/project/rasslive/ORIGINAL_SOURCE/
