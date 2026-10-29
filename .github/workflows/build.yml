@@ -14,7 +14,6 @@ jobs:
           flutter-version: '3.22.0'
       - run: flutter pub add zego_express_engine zego_uikit_prebuilt_live_streaming permission_handler
       - run: |
-          mkdir -p lib
           cat > lib/zego_config.dart << 'EOF'
           import 'package:permission_handler/permission_handler.dart';
           import 'package:zego_express_engine/zego_express_engine.dart';
