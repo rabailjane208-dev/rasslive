@@ -1,0 +1,56 @@
+name: RASS LIVE ZEGO BUILD
+on:
+  push:
+    branches: [master, main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.5'
+          channel: 'stable'
+      
+      - name: Show files
+        run: |
+          pwd
+          ls -la
+          ls -la RESTORED_FLUTTER || true
+          
+      - name: Use correct Flutter folder
+        run: |
+          if [ -f "pubspec.yaml" ]; then echo "ROOT OK"; else echo "Checking subfolders"; fi
+          find . -name "pubspec.yaml" | head -n 20
+
+      - name: Build APK
+        run: |
+          # Agar root me pubspec hai to root se build karo
+          if [ -f "pubspec.yaml" ]; then
+            flutter clean
+            flutter pub get
+            flutter build apk --release --no-tree-shake-icons
+          elif [ -f "RESTORED_FLUTTER/pubspec.yaml" ]; then
+            cd RESTORED_FLUTTER
+            flutter clean
+            flutter pub get
+            flutter build apk --release --no-tree-shake-icons
+          else
+            flutter clean
+            flutter pub get
+            flutter build apk --release --no-tree-shake-icons
+          fi
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: RASSLIVE-BEST-APK
+          path: "**/build/app/outputs/flutter-apk/*.apk"
+          if-no-files-found: warn
+          retention-days: 7
