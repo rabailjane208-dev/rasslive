@@ -15,10 +15,15 @@ jobs:
         with:
           flutter-version: '3.29.2'
           channel: 'stable'
-      - name: Build APK
+      - name: Fix Android v1 embedding
         run: |
           flutter clean
+          rm -rf android
+          flutter create . --platforms=android --project-name rasslive_legendary
+      - name: Build APK
+        run: |
           flutter pub get
+          flutter pub upgrade
           flutter build apk --release --no-tree-shake-icons
       - name: Upload APK
         uses: actions/upload-artifact@v4
