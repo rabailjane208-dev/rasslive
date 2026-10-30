@@ -12,39 +12,10 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.22.0'
-      - name: Install dependencies
-        run: flutter pub get
-      - name: Add packages
-        run: flutter pub add zego_express_engine zego_uikit_prebuilt_live_streaming permission_handler
-      - name: Create zego config
-        run: |
-          mkdir -p lib
-          cat > lib/zego_config.dart << 'EOF'
-          import 'package:permission_handler/permission_handler.dart';
-          import 'package:zego_express_engine/zego_express_engine.dart';
-          class ZegoHelper {
-            static const int appId = 1238213223;
-            static const String appSign = "3cfba1ba4c90747bdd4e393935381fa216178c528dc70e558fa70fafde0fce9f";
-            static Future<void> init() async {
-              await [Permission.camera, Permission.microphone].request();
-              await ZegoExpressEngine.createEngineWithProfile(ZegoEngineProfile(appId, ZegoScenario.Broadcast, appSign: appSign));
-              await ZegoExpressEngine.instance.enableCamera(true);
-              await ZegoExpressEngine.instance.enableMic(true);
-            }
-          }
-          EOF
-      - name: Update manifest
-        run: |
-          cat >> android/app/src/main/AndroidManifest.xml << 'EOF'
-              <uses-permission android:name="android.permission.CAMERA" />
-              <uses-permission android:name="android.permission.RECORD_AUDIO" />
-              <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-          EOF
-        continue-on-error: true
-      - name: Build APK
-        run: flutter build apk --release --target-platform android-arm64
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
+          channel: 'stable'
+      - run: flutter pub get
+      - run: flutter build apk --release --target-platform android-arm64 --no-tree-shake-icons
+      - uses: actions/upload-artifact@v4
         with:
-          name: RASSLIVE-ZEGO-CAMERA-ON
-          path: build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+          name: RASSLIVE-APK-FINAL
+          path: build/app/outputs/flutter-apk/app-release.apk
