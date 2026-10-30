@@ -1,15 +1,1 @@
-name: rass_live
-description: RASS LIVE 80 Gifts
-publish_to: 'none'
-version: 1.0.0+44
-environment:
-  sdk: ">=2.19.0 <4.0.0"
-dependencies:
-  flutter:
-    sdk: flutter
-  cupertino_icons: ^1.0.2
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-flutter:
-  uses-material-design: true
+
