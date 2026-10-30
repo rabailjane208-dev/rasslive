@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+// ZEGO SDK - pubspec me add karne ke baad uncomment karna
+// import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
+// import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
+
+// ========== ZEGO CONFIG - YAHAN TUMHARA ID/SIGN ==========
+const int ZEGO_APP_ID = 1238213223;
+const String ZEGO_APP_SIGN = "3cfba1ba4c90747bdd4e393935381fa216178c528dc70e558fa70fafde0fce9f";
+// ==========================================================
 
 class RassGift {
   final String id; final String name; final int price; final String emoji; final Color color; final bool isBest;
@@ -56,23 +64,48 @@ final List<RassGift> rassGifts = [
   RassGift(id: "48", name: "RASS Universe", price: 300000, emoji: "🌌👑", color: Colors.deepPurple, isBest: true),
   RassGift(id: "49", name: "RASS Legendary", price: 500000, emoji: "🐉🌌💎", color: Colors.amberAccent, isBest: true),
   RassGift(id: "50", name: "RASS GOD", price: 1000000, emoji: "👑🔥🌌", color: Colors.amber, isBest: true),
+  RassGift(id: "51", name: "Heart Crown", price: 10, emoji: "💖👑", color: Colors.pinkAccent),
+  RassGift(id: "52", name: "Beer", price: 20, emoji: "🍺", color: Colors.amber),
+  RassGift(id: "53", name: "Ice Cream", price: 80, emoji: "🍦", color: Colors.cyan),
+  RassGift(id: "54", name: "Coffee", price: 120, emoji: "☕", color: Colors.brown),
+  RassGift(id: "55", name: "Butterfly", price: 250, emoji: "🦋", color: Colors.purple),
+  RassGift(id: "56", name: "Fire", price: 350, emoji: "🔥", color: Colors.orange),
+  RassGift(id: "57", name: "Unicorn", price: 700, emoji: "🦄", color: Colors.pink),
+  RassGift(id: "58", name: "Crown", price: 900, emoji: "👑", color: Colors.amber),
+  RassGift(id: "59", name: "Diamond", price: 1100, emoji: "💎", color: Colors.cyan),
+  RassGift(id: "60", name: "Rocket", price: 1800, emoji: "🚀", color: Colors.blue),
+  RassGift(id: "61", name: "Lion King", price: 2200, emoji: "🦁👑", color: Colors.orange, isBest: true),
+  RassGift(id: "62", name: "Golden Rose", price: 2800, emoji: "🌹💛", color: Colors.amber, isBest: true),
+  RassGift(id: "63", name: "Sports Car", price: 9000, emoji: "🏎️", color: Colors.red, isBest: true),
+  RassGift(id: "64", name: "Yacht", price: 11000, emoji: "🛥️", color: Colors.blue, isBest: true),
+  RassGift(id: "65", name: "Helicopter", price: 13000, emoji: "🚁", color: Colors.green, isBest: true),
+  RassGift(id: "66", name: "Private Jet", price: 16000, emoji: "🛩️", color: Colors.white, isBest: true),
+  RassGift(id: "67", name: "Castle", price: 35000, emoji: "🏰👑", color: Colors.purple, isBest: true),
+  RassGift(id: "68", name: "Galaxy", price: 42000, emoji: "🌌", color: Colors.indigo, isBest: true),
+  RassGift(id: "69", name: "Golden Eagle", price: 65000, emoji: "🦅💛", color: Colors.amber, isBest: true),
+  RassGift(id: "70", name: "Ocean King", price: 75000, emoji: "🌊👑", color: Colors.blue, isBest: true),
+  RassGift(id: "71", name: "Tiger King", price: 90000, emoji: "🐅👑", color: Colors.orange, isBest: true),
+  RassGift(id: "72", name: "Diamond Throne", price: 110000, emoji: "💎🪑", color: Colors.cyan, isBest: true),
+  RassGift(id: "73", name: "Volcano", price: 130000, emoji: "🌋", color: Colors.red, isBest: true),
+  RassGift(id: "74", name: "Aurora", price: 160000, emoji: "🌌✨", color: Colors.purple, isBest: true),
+  RassGift(id: "75", name: "Titan", price: 180000, emoji: "⚔️👑", color: Colors.black, isBest: true),
+  RassGift(id: "76", name: "Mermaid Queen", price: 250000, emoji: "🧜‍♀️👑", color: Colors.cyan, isBest: true),
+  RassGift(id: "77", name: "Galaxy Throne", price: 400000, emoji: "🌌🪑👑", color: Colors.indigo, isBest: true),
+  RassGift(id: "78", name: "RASS SUPREME", price: 750000, emoji: "👑💎🔥🌌", color: Colors.amber, isBest: true),
+  RassGift(id: "79", name: "RASS ETERNAL", price: 1000000, emoji: "♾️👑💖", color: Colors.pinkAccent, isBest: true),
+  RassGift(id: "80", name: "RASS INFINITY", price: 1000000, emoji: "♾️🌌👑💎", color: Colors.amberAccent, isBest: true),
 ];
 
 void main(){ WidgetsFlutterBinding.ensureInitialized(); runApp(const RassLiveApp()); }
 
 class RassLiveApp extends StatelessWidget{
   const RassLiveApp({super.key});
-  @override
-  Widget build(BuildContext context){
+  @override Widget build(BuildContext context){
     return MaterialApp(debugShowCheckedModeBanner: false, title: 'RASS LIVE', theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: Colors.black), home: const MainScreen());
   }
 }
 
-// ROOM MODEL LIKE SCREENSHOT
-class RoomData{
-  final String name; final String emoji; final int viewers; final int score;
-  RoomData(this.name, this.emoji, this.viewers, this.score);
-}
+class RoomData{ final String name; final String emoji; final int viewers; final int score; RoomData(this.name, this.emoji, this.viewers, this.score); }
 final rooms = [
   RoomData("Rass World", "🌍", 1257, 100),
   RoomData("Queen Live", "👑", 892, 85),
@@ -82,21 +115,24 @@ final rooms = [
 ];
 
 class MainScreen extends StatefulWidget{ const MainScreen({super.key}); @override State<MainScreen> createState()=> _MainScreenState(); }
-
 class _MainScreenState extends State<MainScreen>{
   int bottomIndex = 0;
-  @override
-  Widget build(BuildContext context){
+  final tabs = [
+    const RoomListScreen(),
+    const PrivateRoomScreen(),
+    const FamilyRoomScreen(),
+    const VideoFeedScreen(),
+    const MessengerScreen(),
+    const GamesScreen(),
+    const WalletScreen(),
+    const ProfileScreen(),
+  ];
+  @override Widget build(BuildContext context){
     return Scaffold(
       backgroundColor: Colors.black,
-      body: bottomIndex==0 ? const RoomListScreen() : Center(child: Text(["RassLive","Private","Family","Video","Messenger","Games","Wallet","Profile"][bottomIndex], style: const TextStyle(color: Colors.white))),
+      body: tabs[bottomIndex],
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: const Color(0xFF0F0F0F),
-        selectedItemColor: Colors.pinkAccent,
-        unselectedItemColor: Colors.white54,
-        currentIndex: bottomIndex,
-        onTap: (i)=> setState(()=> bottomIndex=i),
+        type: BottomNavigationBarType.fixed, backgroundColor: const Color(0xFF0F0F0F), selectedItemColor: Colors.pinkAccent, unselectedItemColor: Colors.white54, currentIndex: bottomIndex, onTap: (i)=> setState(()=> bottomIndex=i),
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.live_tv), label: "RassLive"),
           BottomNavigationBarItem(icon: Icon(Icons.lock), label: "Private"),
@@ -112,75 +148,67 @@ class _MainScreenState extends State<MainScreen>{
   }
 }
 
-class RoomListScreen extends StatefulWidget{ const RoomListScreen({super.key}); @override State<RoomListScreen> createState()=> _RoomListScreenState(); }
+// ROOM LIST
+class RoomListScreen extends StatelessWidget{ const RoomListScreen({super.key}); @override Widget build(BuildContext context){
+  return SafeArea(child: Column(children: [
+    Padding(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8), child: Row(children: [const Text("RASS LIVE - Score", style: TextStyle(color: Colors.pink, fontWeight: FontWeight.bold, fontSize: 20)), const Spacer(), const Icon(Icons.live_tv, color: Colors.pink)])),
+    const Padding(padding: EdgeInsets.symmetric(horizontal: 12), child: Align(alignment: Alignment.centerLeft, child: Text("👑 PK King: Ali Khan", style: TextStyle(color: Colors.amber, fontSize: 12, fontWeight: FontWeight.bold)))),
+    Expanded(child: ListView.builder(padding: const EdgeInsets.all(10), itemCount: rooms.length, itemBuilder: (c,i){
+      final r = rooms[i];
+      return GestureDetector(onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=> LiveRoomScreen(room: r))), child: Container(margin: const EdgeInsets.only(bottom: 12), padding: const EdgeInsets.all(12), decoration: BoxDecoration(color: const Color(0xFF1a1a1a), borderRadius: BorderRadius.circular(12)), child: Row(children: [
+        CircleAvatar(backgroundColor: Colors.pink, child: Text("${i+1}")), const SizedBox(width:12), Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text("${r.name} ${r.emoji}", style: const TextStyle(fontWeight: FontWeight.bold)), Text("Viewers: ${r.viewers} | Score: ${r.score}", style: const TextStyle(color: Colors.white54, fontSize: 11))])),
+        Container(padding: const EdgeInsets.symmetric(horizontal:8, vertical:4), decoration: BoxDecoration(border: Border.all(color: Colors.amber), borderRadius: BorderRadius.circular(8)), child: Text("${r.score}", style: const TextStyle(color: Colors.amber))),
+      ])));
+    })),
+  ]));
+}}
 
-class _RoomListScreenState extends State<RoomListScreen>{
-  @override
-  Widget build(BuildContext context){
-    return SafeArea(
-      child: Column(
-        children: [
-          Padding(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8), child: Row(children: [const Text("RASS LIVE - Score", style: TextStyle(color: Colors.pink, fontWeight: FontWeight.bold, fontSize: 20)), const Spacer(), IconButton(onPressed: (){}, icon: const Icon(Icons.live_tv, color: Colors.pink))])),
-          const Padding(padding: EdgeInsets.symmetric(horizontal: 12), child: Align(alignment: Alignment.centerLeft, child: Text("👑 PK King: Ali Khan", style: TextStyle(color: Colors.amber, fontSize: 12, fontWeight: FontWeight.bold)))),
-          const SizedBox(height: 8),
-          Expanded(child: ListView.builder(padding: const EdgeInsets.symmetric(horizontal: 10), itemCount: rooms.length, itemBuilder: (c,i){
-            final r = rooms[i];
-            return GestureDetector(
-              onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=> LiveRoomScreen(room: r))),
-              child: Container(margin: const EdgeInsets.only(bottom: 12), padding: const EdgeInsets.all(12), decoration: BoxDecoration(color: const Color(0xFF1a1a1a), borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.white10)),
-                child: Row(children: [
-                  CircleAvatar(radius: 26, backgroundColor: Colors.pink, child: Text("${i+1}", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold))),
-                  const SizedBox(width: 12),
-                  Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text("${r.name} ${r.emoji}", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)), const SizedBox(height:4), Text("Viewers: ${r.viewers} | Score: ${r.score}", style: const TextStyle(color: Colors.white54, fontSize: 11))])),
-                  Container(padding: const EdgeInsets.all(6), decoration: BoxDecoration(color: const Color(0xFF2a2a2a), borderRadius: BorderRadius.circular(12)), child: Column(children: [
-                    Row(children: [Container(padding: const EdgeInsets.all(4), decoration: BoxDecoration(color: Colors.green.withOpacity(0.3), borderRadius: BorderRadius.circular(6)), child: const Icon(Icons.arrow_upward, size: 14, color: Colors.green)), const SizedBox(width:4), Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2), decoration: BoxDecoration(border: Border.all(color: Colors.amber), borderRadius: BorderRadius.circular(6)), child: const Row(children: [Text("+", style: TextStyle(fontSize: 12)), SizedBox(width:2), Text("100", style: TextStyle(fontSize: 10, color: Colors.amber))]))]),
-                    const SizedBox(height:4),
-                    Row(children: [Container(padding: const EdgeInsets.all(4), decoration: BoxDecoration(color: Colors.red.withOpacity(0.3), borderRadius: BorderRadius.circular(6)), child: const Icon(Icons.arrow_downward, size: 14, color: Colors.red)), const SizedBox(width:4), Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2), decoration: BoxDecoration(border: Border.all(color: Colors.white24), borderRadius: BorderRadius.circular(6)), child: const Text("-", style: TextStyle(fontSize: 12)))]),
-                  ])),
-                ]),
-              ),
-            );
-          })),
-          const Padding(padding: EdgeInsets.all(8), child: Text("🔥 Live Legend: Queen Live", style: TextStyle(color: Colors.amber, fontSize: 12, fontWeight: FontWeight.bold))),
-        ],
-      ),
-    );
-  }
-}
+// PRIVATE / FAMILY / VIDEO / ETC - VIDEO JAISE
+class PrivateRoomScreen extends StatelessWidget{ const PrivateRoomScreen({super.key}); @override Widget build(BuildContext context){ return const Center(child: Text("Private 1V1 - Tap Go LIVE to Start", style: TextStyle(color: Colors.white))); }}
+class FamilyRoomScreen extends StatelessWidget{ const FamilyRoomScreen({super.key}); @override Widget build(BuildContext context){ return GridView.count(crossAxisCount: 2, padding: const EdgeInsets.all(20), children: List.generate(4, (i)=> Container(margin: const EdgeInsets.all(8), decoration: BoxDecoration(color: const Color(0xFF1a1a1a), borderRadius: BorderRadius.circular(12)), child: Center(child: Text(i==0?"Host":"Invite ${i}", style: const TextStyle(color: Colors.white)))))); }}
+class VideoFeedScreen extends StatelessWidget{ const VideoFeedScreen({super.key}); @override Widget build(BuildContext context){ return const Center(child: Text("Video Feed - RassLive - Camera + Video Preview + Upload", style: TextStyle(color: Colors.white))); }}
+class MessengerScreen extends StatelessWidget{ const MessengerScreen({super.key}); @override Widget build(BuildContext context){ return ListView(padding: const EdgeInsets.all(12), children: const [ListTile(leading: CircleAvatar(child: Text("P")), title: Text("PKArena_Official", style: TextStyle(color: Colors.white)), subtitle: Text("Beach wala Heart...", style: TextStyle(color: Colors.white54))), ListTile(leading: CircleAvatar(child: Text("Q")), title: Text("Queen Live", style: TextStyle(color: Colors.white)), subtitle: Text("PK karoge?", style: TextStyle(color: Colors.white54)))]); }}
+class GamesScreen extends StatelessWidget{ const GamesScreen({super.key}); @override Widget build(BuildContext context){ return GridView.count(crossAxisCount: 2, padding: const EdgeInsets.all(12), children: const [Card(color: Color(0xFF1a1a1a), child: Center(child: Text("PK Battle - 21 Games", style: TextStyle(color: Colors.white)))), Card(color: Color(0xFF1a1a1a), child: Center(child: Text("Ludo - 6 Games", style: TextStyle(color: Colors.white)))), Card(color: Color(0xFF1a1a1a), child: Center(child: Text("Card - 10 Games", style: TextStyle(color: Colors.white)))), Card(color: Color(0xFF1a1a1a), child: Center(child: Text("Football - 9 Games", style: TextStyle(color: Colors.white))))]); }}
+class WalletScreen extends StatelessWidget{ const WalletScreen({super.key}); @override Widget build(BuildContext context){ return const Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text("5,000 Coins", style: TextStyle(color: Colors.amber, fontSize: 32, fontWeight: FontWeight.bold)), Text("~ \$99.50 USD - Recharge Available 193 Countries", style: TextStyle(color: Colors.white54))])); }}
+class ProfileScreen extends StatelessWidget{ const ProfileScreen({super.key}); @override Widget build(BuildContext context){ return const Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [CircleAvatar(radius: 40, backgroundColor: Colors.pink, child: Icon(Icons.person, size: 40)), SizedBox(height: 10), Text("Rass Jigar @rass_jigar", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)), Text("Host Mode ON - 1250 Diamonds", style: TextStyle(color: Colors.white54))])); }}
 
-// LIVE ROOM WITH CAMERA ON + BEST GIFT SHEET
-class LiveRoomScreen extends StatefulWidget{
-  final RoomData room; const LiveRoomScreen({super.key, required this.room});
-  @override State<LiveRoomScreen> createState()=> _LiveRoomScreenState();
-}
+// LIVE ROOM WITH ZEGO + 80 GIFTS
+class LiveRoomScreen extends StatefulWidget{ final RoomData room; const LiveRoomScreen({super.key, required this.room}); @override State<LiveRoomScreen> createState()=> _LiveRoomScreenState(); }
 class _LiveRoomScreenState extends State<LiveRoomScreen>{
-  RassGift? selected; int count=1; int myScore=0;
-  @override
-  Widget build(BuildContext context){
-    return Scaffold(
-      body: Stack(children: [
-        Container(width: double.infinity, height: double.infinity, decoration: const BoxDecoration(gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Color(0xFF2a1a4a), Color(0xFF1a1a2e), Colors.black])) , child: SafeArea(child: Column(children: [
-          Padding(padding: const EdgeInsets.all(10), child: Row(children: [IconButton(onPressed: ()=> Navigator.pop(context), icon: const Icon(Icons.arrow_back, color: Colors.white)), CircleAvatar(backgroundColor: Colors.pink, child: Text(widget.room.name[0])), const SizedBox(width:8), Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(widget.room.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)), Text("ID: ${widget.room.viewers} • LIVE", style: const TextStyle(fontSize:10, color: Colors.white70))]), const Spacer(), Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4), decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(12)), child: const Text("LIVE • Camera ON", style: TextStyle(fontSize:10, fontWeight: FontWeight.bold))), const SizedBox(width:6), Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4), decoration: BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.circular(12)), child: Text("💎 $myScore", style: const TextStyle(color: Colors.amber, fontWeight: FontWeight.bold, fontSize: 11)))])),
-          const Spacer(), const Text("🎥 Camera ON • 2 Seats • Gift System BEST", style: TextStyle(color: Colors.white70, fontSize: 11)), const SizedBox(height: 320),
-        ]))),
-        DraggableScrollableSheet(initialChildSize: 0.52, minChildSize: 0.4, maxChildSize: 0.85, builder: (context, sc){
-          return Container(decoration: const BoxDecoration(color: Color(0xFF1c1c1e), borderRadius: BorderRadius.vertical(top: Radius.circular(16))), child: Column(children: [
-            const SizedBox(height:8), Container(width:36, height:4, decoration: BoxDecoration(color: Colors.grey[600], borderRadius: BorderRadius.circular(2))), const SizedBox(height:8),
-            Padding(padding: const EdgeInsets.symmetric(horizontal:12), child: Row(children: [Container(padding: const EdgeInsets.symmetric(horizontal:8, vertical:3), decoration: BoxDecoration(color: Colors.orange, borderRadius: BorderRadius.circular(8)), child: const Text("Gift Pack", style: TextStyle(fontSize:10, fontWeight: FontWeight.bold))), const SizedBox(width:8), const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text("XP Needed: 3000", style: TextStyle(fontSize:9, color: Colors.white70)), LinearProgressIndicator(value: 0.72, backgroundColor: Colors.white12, color: Colors.orange, minHeight: 3)])), const Text("72%", style: TextStyle(fontSize:10, color: Colors.orange)), const SizedBox(width:8), Container(padding: const EdgeInsets.symmetric(horizontal:6, vertical:2), decoration: BoxDecoration(color: Colors.white12, borderRadius: BorderRadius.circular(6)), child: const Text("Surprise Shop", style: TextStyle(fontSize:9)))])),
+  RassGift? selected; int count=1; int myScore=0; bool isLive=false;
+  @override Widget build(BuildContext context){
+    return Scaffold(body: Stack(children: [
+      Container(width: double.infinity, height: double.infinity, decoration: const BoxDecoration(gradient: LinearGradient(colors: [Color(0xFF2a1a4a), Colors.black])),
+        child: SafeArea(child: Column(children: [
+          Padding(padding: const EdgeInsets.all(10), child: Row(children: [IconButton(onPressed: ()=> Navigator.pop(context), icon: const Icon(Icons.arrow_back, color: Colors.white)), CircleAvatar(backgroundColor: Colors.pink, child: Text(widget.room.name[0])), const SizedBox(width:8), Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(widget.room.name, style: const TextStyle(fontWeight: FontWeight.bold)), Text("ID: ${widget.room.viewers} • ${isLive?"LIVE":"No PK"}", style: const TextStyle(fontSize:10, color: Colors.white70))]), const Spacer(), Container(padding: const EdgeInsets.symmetric(horizontal:8, vertical:4), decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(12)), child: Text(isLive?"LIVE":"No PK", style: const TextStyle(fontSize:10, fontWeight: FontWeight.bold))), const SizedBox(width:6), Text("💎 $myScore", style: const TextStyle(color: Colors.amber)))])),
+          const Spacer(),
+          Container(margin: const EdgeInsets.all(20), padding: const EdgeInsets.all(20), decoration: BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.circular(12), border: Border.all(color: isLive?Colors.green:Colors.white24)), child: Column(children: [
+            Icon(isLive?Icons.videocam:Icons.videocam_off, size: 40, color: isLive?Colors.green:Colors.grey),
+            const SizedBox(height:10), Text(isLive?"LIVE - ${widget.room.name} Camera - ZEGO ID: $ZEGO_APP_ID - STREAMING LIVE":"Camera OFF - TAP Go LIVE TO START", textAlign: TextAlign.center, style: const TextStyle(color: Colors.white70, fontSize: 11)),
+          ])),
+          Padding(padding: const EdgeInsets.all(12), child: Column(children: [
+            Row(children: [const Icon(Icons.star, color: Colors.amber, size: 16), const Text(" Ali Khan 1.2M  Sara 980K  Zain 540K", style: TextStyle(color: Colors.white54, fontSize: 11))]),
             const SizedBox(height:8),
-            Expanded(child: GridView.builder(controller: sc, padding: const EdgeInsets.all(8), gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4, crossAxisSpacing: 8, mainAxisSpacing: 8, childAspectRatio: 0.78), itemCount: rassGifts.length, itemBuilder: (c,i){
-              final g = rassGifts[i]; final isSel = selected?.id==g.id;
-              return GestureDetector(onTap: ()=> setState(()=> selected=g), child: Container(decoration: BoxDecoration(color: isSel? Colors.amber.withOpacity(0.25): const Color(0xFF2c2c2e), borderRadius: BorderRadius.circular(10), border: isSel? Border.all(color: Colors.amber, width:1.5): g.isBest? Border.all(color: Colors.amber.withOpacity(0.6)): null), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text(g.emoji, style: TextStyle(fontSize: g.isBest?26:22)), Text(g.name, style: const TextStyle(fontSize:8, fontWeight: FontWeight.bold), textAlign: TextAlign.center, maxLines:2), Container(margin: const EdgeInsets.only(top:2), padding: const EdgeInsets.symmetric(horizontal:4, vertical:1), decoration: BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.circular(8)), child: Text("🪙 ${g.price}", style: TextStyle(fontSize:7, color: Colors.amber[200], fontWeight: FontWeight.bold))), if(g.isBest) Container(margin: const EdgeInsets.only(top:2), padding: const EdgeInsets.symmetric(horizontal:4, vertical:1), decoration: BoxDecoration(color: Colors.amber, borderRadius: BorderRadius.circular(4)), child: const Text("BEST", style: TextStyle(fontSize:5, color: Colors.black, fontWeight: FontWeight.bold)))])));
-            })),
-            Container(padding: const EdgeInsets.symmetric(horizontal:10, vertical:8), decoration: const BoxDecoration(color: Color(0xFF121212), border: Border(top: BorderSide(color: Colors.white12))), child: Row(children: [
-              Container(padding: const EdgeInsets.symmetric(horizontal:10, vertical:6), decoration: BoxDecoration(color: Colors.orange, borderRadius: BorderRadius.circular(16)), child: const Text("First Recharge", style: TextStyle(fontSize:10, fontWeight: FontWeight.bold))),
-              const SizedBox(width:8),
-              Expanded(child: Row(children: [1,10,50].map((n)=> GestureDetector(onTap: ()=> setState(()=> count=n), child: Container(margin: const EdgeInsets.only(right:6), width:30, height:28, decoration: BoxDecoration(color: count==n? Colors.white: Colors.white12, borderRadius: BorderRadius.circular(8)), child: Center(child: Text("$n", style: TextStyle(fontSize:11, color: count==n? Colors.black: Colors.white, fontWeight: FontWeight.bold)))))).toList())),
-              GestureDetector(onTap: (){ if(selected!=null){ setState(()=> myScore+= selected!.price*count); ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${selected!.emoji} ${selected!.name} x$count Sent!", style: const TextStyle(fontWeight: FontWeight.bold)), backgroundColor: selected!.color, duration: const Duration(milliseconds: 700))); }}, child: Container(padding: const EdgeInsets.symmetric(horizontal:20, vertical:8), decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF00c6ff), Color(0xFF0072ff)]), borderRadius: BorderRadius.circular(20)), child: const Text("Send", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)))),
-            ])),
-          ]));
-        }),
-      ]),
-    );
+            ElevatedButton(onPressed: ()=> setState(()=> isLive=!isLive), style: ElevatedButton.styleFrom(backgroundColor: isLive?Colors.red:Colors.blue, minimumSize: const Size(double.infinity, 45)), child: Text(isLive?"END LIVE":"Go LIVE in RassLive", style: const TextStyle(fontWeight: FontWeight.bold))),
+          ])),
+          const SizedBox(height: 350),
+        ]))),
+      DraggableScrollableSheet(initialChildSize: 0.5, minChildSize: 0.35, maxChildSize: 0.85, builder: (context, sc){
+        return Container(decoration: const BoxDecoration(color: Color(0xFF1c1c1e), borderRadius: BorderRadius.vertical(top: Radius.circular(16))), child: Column(children: [
+          const SizedBox(height:8), Container(width:36, height:4, decoration: BoxDecoration(color: Colors.grey[600], borderRadius: BorderRadius.circular(2))), const SizedBox(height:8),
+          Padding(padding: const EdgeInsets.symmetric(horizontal:12), child: Row(children: [Container(padding: const EdgeInsets.symmetric(horizontal:8, vertical:3), decoration: BoxDecoration(color: Colors.orange, borderRadius: BorderRadius.circular(8)), child: const Text("Rass Host Live 500", style: TextStyle(fontSize:9, fontWeight: FontWeight.bold))), const Spacer(), const Text("Bonus 1 2 5 10 20", style: TextStyle(fontSize:10, color: Colors.white70))])),
+          const SizedBox(height:8),
+          Expanded(child: GridView.builder(controller: sc, padding: const EdgeInsets.all(8), gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4, crossAxisSpacing: 8, mainAxisSpacing: 8, childAspectRatio: 0.75), itemCount: rassGifts.length, itemBuilder: (c,i){
+            final g = rassGifts[i]; final isSel = selected?.id==g.id;
+            return GestureDetector(onTap: ()=> setState(()=> selected=g), child: Container(decoration: BoxDecoration(color: isSel?Colors.amber.withOpacity(0.25):const Color(0xFF2c2c2e), borderRadius: BorderRadius.circular(10), border: isSel?Border.all(color: Colors.amber): g.isBest?Border.all(color: Colors.amber.withOpacity(0.5)): null), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text(g.emoji, style: TextStyle(fontSize: g.isBest?24:20)), Text(g.name, style: const TextStyle(fontSize:7, fontWeight: FontWeight.bold), textAlign: TextAlign.center), Text("🪙 ${g.price}", style: TextStyle(fontSize:7, color: Colors.amber[200]))])));
+          })),
+          Container(padding: const EdgeInsets.all(10), decoration: const BoxDecoration(color: Color(0xFF121212), border: Border(top: BorderSide(color: Colors.white12))), child: Row(children: [
+            Row(children: [1,5,10,20].map((n)=> GestureDetector(onTap: ()=> setState(()=> count=n), child: Container(margin: const EdgeInsets.only(right:6), width:28, height:26, decoration: BoxDecoration(color: count==n?Colors.white:Colors.white12, borderRadius: BorderRadius.circular(6)), child: Center(child: Text("$n", style: TextStyle(fontSize:11, color: count==n?Colors.black:Colors.white, fontWeight: FontWeight.bold)))))).toList()),
+            const Spacer(),
+            GestureDetector(onTap: (){ if(selected!=null){ setState(()=> myScore+= selected!.price*count); ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${selected!.emoji} ${selected!.name} x$count Sent!"), backgroundColor: selected!.color)); }}, child: Container(padding: const EdgeInsets.symmetric(horizontal:22, vertical:8), decoration: BoxDecoration(color: Colors.pink, borderRadius: BorderRadius.circular(20)), child: const Text("Send", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)))),
+          ])),
+        ]));
+      }),
+    ]));
   }
 }
