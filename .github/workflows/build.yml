@@ -13,9 +13,9 @@ jobs:
         with:
           flutter-version: '3.22.0'
           channel: 'stable'
-      - run: flutter pub get || true
-      - run: flutter build apk --release --target-platform android-arm64 --no-tree-shake-icons || flutter build apk --release --target-platform android-arm64
+      - run: flutter pub get
+      - run: flutter build apk --release --target-platform android-arm64 --no-tree-shake-icons
       - uses: actions/upload-artifact@v4
         with:
           name: RASSLIVE-APK-FINAL
-          path: build/app/outputs/flutter-apk/*.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
