@@ -12,8 +12,10 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.22.3'
-      - name: Build DEBUG APK
+      - name: Fix Android Embedding + Build APK
         run: |
+          rm -rf android
+          flutter create . --platforms=android
           cp rass_legendary_final.dart lib/main.dart
           flutter pub get
           flutter build apk --debug
