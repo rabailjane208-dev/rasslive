@@ -20,24 +20,22 @@ jobs:
           flutter clean
           rm -rf android
           flutter create --platforms=android --org com.rasslive.app . --overwrite
-          ls -R android/app | head -n 100
+          ls android/app/ | head -n 100
+      - name: Use Legendary Final File
+        run: |
+          if [ -f "rass_legendary_final.dart" ]; then cp rass_legendary_final.dart lib/main.dart; echo "COPIED LEGENDARY"; fi
+          ls -lh lib/
       - name: Fix SDK and NDK versions
         run: |
-          FILE=""
+          FILE="android/app/build.gradle.kts"
           if [ -f "android/app/build.gradle" ]; then FILE="android/app/build.gradle"; fi
-          if [ -f "android/app/build.gradle.kts" ]; then FILE="android/app/build.gradle.kts"; fi
-          echo "Found file: $FILE"
-          cat $FILE
           sed -i 's/minSdkVersion 21/minSdkVersion 23/g' $FILE || true
-          sed -i 's/minSdkVersion 22/minSdkVersion 23/g' $FILE || true
           sed -i 's/minSdk = 21/minSdk = 23/g' $FILE || true
           sed -i 's/compileSdkVersion 34/compileSdkVersion 36/g' $FILE || true
           sed -i 's/compileSdk = 34/compileSdk = 36/g' $FILE || true
           sed -i 's/targetSdkVersion 34/targetSdkVersion 36/g' $FILE || true
           sed -i 's/targetSdk = 34/targetSdk = 36/g' $FILE || true
-          if ! grep -q "ndkVersion" $FILE; then echo '    ndkVersion = "27.0.12077973"' >> $FILE; fi
-          sed -i 's/ndkVersion.*/    ndkVersion = "27.0.12077973"/' $FILE || true
-          cat $FILE
+          if ! grep -q "ndkVersion" $FILE; then sed -i '/android {/a \    ndkVersion = "27.0.12077973"' $FILE; fi
       - name: Build APK
         run: |
           flutter pub get
@@ -47,5 +45,4 @@ jobs:
         with:
           name: RASSLIVE-BEST-APK
           path: "**/build/app/outputs/flutter-apk/*.apk"
-          if-no-files-found: warn
           retention-days: 7
