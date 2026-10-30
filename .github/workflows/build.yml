@@ -6,24 +6,33 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
-      - uses: subosito/flutter-action@v2
+
+      - name: Setup Flutter 3.22.3
+        uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.22.3'
           channel: 'stable'
-      - name: Build APK
+
+      - name: Repair Android + Build DEBUG APK
         run: |
           flutter clean
           rm -rf android
           flutter create --platforms=android --org com.rasslive.app .
-          if [ -f "rass_legendary_final.dart" ]; then cp rass_legendary_final.dart lib/main.dart; fi
+          echo "Copying rass_legendary_final.dart to lib/main.dart"
+          cp rass_legendary_final.dart lib/main.dart
           flutter pub get
           flutter build apk --debug --no-tree-shake-icons
-      - uses: actions/upload-artifact@v4
+
+      - name: Upload GREEN APK
+        uses: actions/upload-artifact@v4
         with:
-          name: RASSLIVE-80-GIFTS-GREEN
+          name: RASSLIVE-GREEN-55-APK
           path: build/app/outputs/flutter-apk/app-debug.apk
