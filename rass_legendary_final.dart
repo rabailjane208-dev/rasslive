@@ -3,7 +3,8 @@ import 'package:camera/camera.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 List<CameraDescription> globalCameras = [];
-
+// cams[0] = back camera, cams[1] = front camera
+con = CameraController(cams[1].lensDirection == CameraLensDirection.front ? cams[1] : cams[0], ResolutionPreset.medium);
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
@@ -174,9 +175,21 @@ class _LiveRoomScreenState extends State<LiveRoomScreen>{
           Container(padding: const EdgeInsets.symmetric(horizontal:10, vertical:8), decoration: const BoxDecoration(color: Color(0xFF121212), border: Border(top: BorderSide(color: Colors.white12))), child: Row(children: [
             Expanded(child: Row(children: [1,10,50].map((n)=> GestureDetector(onTap: ()=> setState(()=> count=n), child: Container(margin: const EdgeInsets.only(right:6), width:30, height:28, decoration: BoxDecoration(color: count==n? Colors.white: Colors.white12, borderRadius: BorderRadius.circular(8)), child: Center(child: Text("$n", style: TextStyle(fontSize:11, color: count==n? Colors.black: Colors.white, fontWeight: FontWeight.bold)))))).toList())),
             GestureDetector(onTap: (){ if(selected!=null){ setState(()=> myScore+= selected!.price*count); }}, child: Container(padding: const EdgeInsets.symmetric(horizontal:20, vertical:8), decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF00c6ff), Color(0xFF0072ff)]), borderRadius: BorderRadius.circular(20)), child: const Text("Send", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)))),
-          ])),
-        ]));
-      }),
+            =============
+            // Add flip button inside Stack - Top right
+Positioned(top:40, right:20, child: IconButton(
+  icon: const Icon(Icons.flip_camera_ios, color: Colors.white, size:30),
+  onPressed: () async {
+    // switch logic
+    var newIndex = (currentIndex + 1) % cams.length;
+    currentIndex = newIndex;
+    await con!.dispose();
+    con = CameraController(cams[newIndex], ResolutionPreset.medium);
+    await con!.initialize();
+    setState((){});
+  },
+   ])),
+     ])); ,
     ]));
   }
 }
