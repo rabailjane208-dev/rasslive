@@ -13,33 +13,9 @@ jobs:
         with:
           flutter-version: '3.22.0'
           channel: 'stable'
-      - name: Flutter create if needed
-        run: |
-          if [ ! -f pubspec.yaml ]; then
-            flutter create . --platforms=android --project-name rasslive
-          fi
       - run: flutter pub get || true
-      - name: Fix zego versions if needed
-        run: |
-          if grep -q "zego_uikit_prebuilt_live_streaming" pubspec.yaml; then
-            sed -i "s/zego_uikit_prebuilt_live_streaming:.*/zego_uikit_prebuilt_live_streaming: any/g" pubspec.yaml || true
-          fi
-          flutter pub get || true
-      - name: Ensure safe zego config
-        run: |
-          mkdir -p lib
-          cat > lib/zego_config.dart << 'EOF'
-          import 'package:permission_handler/permission_handler.dart';
-          class ZegoHelper {
-            static const int appId = 1238213223;
-            static const String appSign = "3cfba1ba4c90747bdd4e393935381fa216178c528dc70e558fa70fafde0fce9f";
-            static Future<void> init() async {
-              try { await [Permission.camera, Permission.microphone].request(); } catch(e) {}
-            }
-          }
-          EOF
-      - run: flutter build apk --release --target-platform android-arm64 --no-tree-shake-icons || flutter build apk --release
+      - run: flutter build apk --release --target-platform android-arm64
       - uses: actions/upload-artifact@v4
         with:
-          name: RASSLIVE-APK-FINAL
+          name: RASSLIVE-APK-FINAL-000
           path: build/app/outputs/flutter-apk/app-release.apk
