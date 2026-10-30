@@ -20,11 +20,19 @@ jobs:
           flutter clean
           rm -rf android
           flutter create --platforms=android --org com.rasslive.app . --overwrite
-          ls android/app/ | head -n 100
       - name: Use Legendary Final File
         run: |
-          if [ -f "rass_legendary_final.dart" ]; then cp rass_legendary_final.dart lib/main.dart; echo "COPIED LEGENDARY"; fi
+          ls -lh *.dart
           ls -lh lib/
+          if [ -f "rass_legendary_final.dart" ]; then cp rass_legendary_final.dart lib/main.dart; echo "COPIED"; fi
+          echo "--- lib/main.dart HEAD ---"
+          head -n 100 lib/main.dart
+          if ! grep -q "void main" lib/main.dart; then
+            echo "NO MAIN - adding main wrapper"
+            echo "" >> lib/main.dart
+            echo "void main() { WidgetsFlutterBinding.ensureInitialized(); runApp(const MyApp()); }" >> lib/main.dart
+          fi
+          cat lib/main.dart | tail -n 20
       - name: Fix SDK and NDK versions
         run: |
           FILE="android/app/build.gradle.kts"
