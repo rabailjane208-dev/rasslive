@@ -1,4 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
+import 'package:permission_handler/permission_handler.dart';
+
+List<CameraDescription> globalCameras = [];
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await [Permission.camera, Permission.microphone].request();
+    globalCameras = await availableCameras();
+  } catch(e) {
+    debugPrint("Camera init: $e");
+  }
+  runApp(const RassLiveApp());
+}
 
 class RassGift {
   final String id; final String name; final int price; final String emoji; final Color color; final bool isBest;
@@ -58,8 +73,6 @@ final List<RassGift> rassGifts = [
   RassGift(id: "50", name: "RASS GOD", price: 1000000, emoji: "👑🔥🌌", color: Colors.amber, isBest: true),
 ];
 
-void main() => runApp(const RassLiveApp());
-
 class RassLiveApp extends StatelessWidget{
   const RassLiveApp({super.key});
   @override Widget build(BuildContext context){
@@ -114,9 +127,43 @@ class _RoomListScreenState extends State<RoomListScreen>{
 class LiveRoomScreen extends StatefulWidget{ final RoomData room; const LiveRoomScreen({super.key, required this.room}); @override State<LiveRoomScreen> createState()=> _LiveRoomScreenState(); }
 class _LiveRoomScreenState extends State<LiveRoomScreen>{
   RassGift? selected; int count=1; int myScore=0;
+  CameraController? _cameraController;
+  bool _isCamInit = false;
+
+  @override void initState(){
+    super.initState();
+    _initCameraSafe();
+  }
+  Future<void> _initCameraSafe() async {
+    try {
+      var status = await Permission.camera.request();
+      await Permission.microphone.request();
+      if(status.isDenied) return;
+      if(globalCameras.isEmpty) globalCameras = await availableCameras();
+      if(globalCameras.isNotEmpty){
+        _cameraController = CameraController(globalCameras[0], ResolutionPreset.medium);
+        await _cameraController!.initialize();
+        if(mounted) setState(()=> _isCamInit = true);
+      }
+    } catch(e){ debugPrint("Camera 0000 Safe: $e"); }
+  }
+  @override void dispose(){ try{ _cameraController?.dispose(); } catch(e){} super.dispose(); }
+
+  Widget _buildLiveView(){
+    if(_isCamInit && _cameraController != null && _cameraController!.value.isInitialized){
+      return CameraPreview(_cameraController!);
+    } else {
+      return const Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        CircularProgressIndicator(color: Colors.pink),
+        SizedBox(height:12),
+        Text("Camera Starting... Allow Permission", style: TextStyle(color: Colors.white54, fontSize:12))
+      ]));
+    }
+  }
+
   @override Widget build(BuildContext context){
     return Scaffold(body: Stack(children: [
-      Container(decoration: const BoxDecoration(gradient: LinearGradient(colors: [Colors.pink, Colors.black], begin: Alignment.topCenter, end: Alignment.bottomCenter)), child: const Center(child: Text("Camera ON - Gift System Ready", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)))),
+      SizedBox(width: double.infinity, height: double.infinity, child: _buildLiveView()),
       SafeArea(child: Column(children: [Padding(padding: const EdgeInsets.all(10), child: Row(children: [IconButton(onPressed: ()=> Navigator.pop(context), icon: const Icon(Icons.arrow_back, color: Colors.white)), Text(widget.room.name, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white)), const Spacer(), Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4), decoration: BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.circular(12)), child: Text("💎 $myScore", style: const TextStyle(color: Colors.amber, fontWeight: FontWeight.bold)))])), const Spacer()])),
       DraggableScrollableSheet(initialChildSize: 0.52, minChildSize: 0.4, maxChildSize: 0.85, builder: (context, sc){
         return Container(decoration: const BoxDecoration(color: Color(0xFF1c1c1e), borderRadius: BorderRadius.vertical(top: Radius.circular(16))), child: Column(children: [
