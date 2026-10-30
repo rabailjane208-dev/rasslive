@@ -1,7 +1,7 @@
 name: rass_live
-description: RASS LIVE - Gift + Sound System Best
+description: RASS LIVE - 80 Gifts - Gift + Sound System Best - GREEN #55
 publish_to: 'none'
-version: 1.0.0+51
+version: 1.0.0+55
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
