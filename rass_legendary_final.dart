@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-
 const int ZEGO_APP_ID = 1238213223;
 const String ZEGO_APP_SIGN = "3cfba1ba4c90747bdd4e393935381fa216178c528dc70e558fa70fafde0fce9f";
-
-class RassGift {
-  final String id; final String name; final int price; final String emoji; final Color color; final bool isBest;
-  const RassGift({required this.id, required this.name, required this.price, required this.emoji, required this.color, this.isBest = false});
-}
-
+class RassGift { final String id; final String name; final int price; final String emoji; final Color color; final bool isBest; const RassGift({required this.id, required this.name, required this.price, required this.emoji, required this.color, this.isBest = false}); }
 final List<RassGift> rassGifts = [
   RassGift(id: "1", name: "Kiss", price: 10, emoji: "💋", color: Colors.pink),
   RassGift(id: "2", name: "Rose", price: 10, emoji: "🌹", color: Colors.red),
@@ -90,120 +84,32 @@ final List<RassGift> rassGifts = [
   RassGift(id: "79", name: "RASS ETERNAL", price: 1000000, emoji: "♾️👑💖", color: Colors.pinkAccent, isBest: true),
   RassGift(id: "80", name: "RASS INFINITY", price: 1000000, emoji: "♾️🌌👑💎", color: Colors.amberAccent, isBest: true),
 ];
-
 void main(){ WidgetsFlutterBinding.ensureInitialized(); runApp(const RassLiveApp()); }
-
-class RassLiveApp extends StatelessWidget{
-  const RassLiveApp({super.key});
-  @override Widget build(BuildContext context){
-    return MaterialApp(debugShowCheckedModeBanner: false, title: 'RASS LIVE', theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: Colors.black), home: const MainScreen());
-  }
-}
-
+class RassLiveApp extends StatelessWidget{ const RassLiveApp({super.key}); @override Widget build(BuildContext context){ return MaterialApp(debugShowCheckedModeBanner: false, title: 'RASS LIVE', theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: Colors.black), home: const MainScreen()); } }
 class RoomData{ final String name; final String emoji; final int viewers; final int score; RoomData(this.name, this.emoji, this.viewers, this.score); }
-final rooms = [
-  RoomData("Rass World", "🌍", 1257, 100),
-  RoomData("Queen Live", "👑", 892, 85),
-  RoomData("Rass PK Arena", "", 543, 70),
-  RoomData("9 Stars Multi", "⭐", 321, 60),
-  RoomData("Voice Live", "🎙️", 210, 50),
-];
-
+final rooms = [ RoomData("Rass World", "🌍", 1257, 100), RoomData("Queen Live", "👑", 892, 85), RoomData("Rass PK Arena", "", 543, 70), RoomData("9 Stars Multi", "⭐", 321, 60), RoomData("Voice Live", "🎙️", 210, 50), ];
 class MainScreen extends StatefulWidget{ const MainScreen({super.key}); @override State<MainScreen> createState()=> _MainScreenState(); }
 class _MainScreenState extends State<MainScreen>{
   int bottomIndex = 0;
-  final tabs = [
-    const RoomListScreen(),
-    const PrivateRoomScreen(),
-    const FamilyRoomScreen(),
-    const VideoFeedScreen(),
-    const MessengerScreen(),
-    const GamesScreen(),
-    const WalletScreen(),
-    const ProfileScreen(),
-  ];
-  @override Widget build(BuildContext context){
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: tabs[bottomIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed, 
-        backgroundColor: const Color(0xFF0F0F0F), 
-        selectedItemColor: Colors.pinkAccent, 
-        unselectedItemColor: Colors.white54, 
-        currentIndex: bottomIndex, 
-        onTap: (i)=> setState(()=> bottomIndex=i),
-        selectedFontSize: 9,
-        unselectedFontSize: 8,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.live_tv, size: 18), label: "RassLive"),
-          BottomNavigationBarItem(icon: Icon(Icons.lock, size: 18), label: "Private"),
-          BottomNavigationBarItem(icon: Icon(Icons.people, size: 18), label: "Family"),
-          BottomNavigationBarItem(icon: Icon(Icons.video_library, size: 18), label: "Video"),
-          BottomNavigationBarItem(icon: Icon(Icons.message, size: 18), label: "Messen"),
-          BottomNavigationBarItem(icon: Icon(Icons.gamepad, size: 18), label: "Games"),
-          BottomNavigationBarItem(icon: Icon(Icons.wallet, size: 18), label: "Wallet"),
-          BottomNavigationBarItem(icon: Icon(Icons.person, size: 18), label: "Profile"),
-        ],
-      ),
-    );
-  }
+  final List<Widget> tabs = [RoomListScreen(), PrivateRoomScreen(), FamilyRoomScreen(), VideoFeedScreen(), MessengerScreen(), GamesScreen(), WalletScreen(), ProfileScreen()];
+  Widget _tab(IconData ic, String lb, int i){ bool s=bottomIndex==i; return GestureDetector(onTap: ()=> setState(()=> bottomIndex=i), child: Container(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6), decoration: BoxDecoration(color: s?Colors.pink.withOpacity(0.2):Colors.transparent, borderRadius: BorderRadius.circular(8)), child: Column(mainAxisSize: MainAxisSize.min, children: [Icon(ic, size: 20, color: s?Colors.pinkAccent:Colors.white54), const SizedBox(height: 2), Text(lb, style: TextStyle(fontSize: 8, color: s?Colors.pinkAccent:Colors.white54))]))); }
+  @override Widget build(BuildContext context){ return Scaffold(backgroundColor: Colors.black, body: tabs[bottomIndex], bottomNavigationBar: Container(height: 62, color: const Color(0xFF0F0F0F), child: SingleChildScrollView(scrollDirection: Axis.horizontal, child: Row(children: [_tab(Icons.live_tv, "RassLive", 0), _tab(Icons.lock, "Private", 1), _tab(Icons.people, "Family", 2), _tab(Icons.video_library, "Video", 3), _tab(Icons.message, "Messen", 4), _tab(Icons.gamepad, "Games", 5), _tab(Icons.wallet, "Wallet", 6), _tab(Icons.person, "Profile", 7)])))); }
 }
-
-class RoomListScreen extends StatelessWidget{ const RoomListScreen({super.key}); @override Widget build(BuildContext context){
-  return SafeArea(child: Column(children: [
-    Padding(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8), child: Row(children: [const Text("RASS LIVE - Score", style: TextStyle(color: Colors.pink, fontWeight: FontWeight.bold, fontSize: 16)), const Spacer(), const Icon(Icons.live_tv, color: Colors.pink, size: 18)])),
-    const Padding(padding: EdgeInsets.symmetric(horizontal: 12), child: Align(alignment: Alignment.centerLeft, child: Text("👑 PK King: Ali Khan", style: TextStyle(color: Colors.amber, fontSize: 10, fontWeight: FontWeight.bold)))),
-    Expanded(child: ListView.builder(padding: const EdgeInsets.all(10), itemCount: rooms.length, itemBuilder: (c,i){
-      final r = rooms[i];
-      return GestureDetector(onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=> LiveRoomScreen(room: r))), child: Container(margin: const EdgeInsets.only(bottom: 8), padding: const EdgeInsets.all(10), decoration: BoxDecoration(color: const Color(0xFF1a1a1a), borderRadius: BorderRadius.circular(10)), child: Row(children: [
-        CircleAvatar(radius: 18, backgroundColor: Colors.pink, child: Text("${i+1}", style: const TextStyle(fontSize: 11))), const SizedBox(width:8), Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text("${r.name} ${r.emoji}", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)), Text("Viewers: ${r.viewers} | Score: ${r.score}", style: const TextStyle(color: Colors.white54, fontSize: 9))])),
-        Container(padding: const EdgeInsets.symmetric(horizontal:5, vertical:2), decoration: BoxDecoration(border: Border.all(color: Colors.amber), borderRadius: BorderRadius.circular(5)), child: Text("${r.score}", style: const TextStyle(color: Colors.amber, fontSize: 10))),
-      ])));
-    })),
-  ]));
-}}
-
-class PrivateRoomScreen extends StatelessWidget{ const PrivateRoomScreen({super.key}); @override Widget build(BuildContext context){ return const Center(child: Text("Private 1V1 - Voice + Sound System ON", style: TextStyle(color: Colors.white))); }}
-class FamilyRoomScreen extends StatelessWidget{ const FamilyRoomScreen({super.key}); @override Widget build(BuildContext context){ return GridView.count(crossAxisCount: 2, padding: const EdgeInsets.all(16), children: List.generate(4, (i)=> Container(margin: const EdgeInsets.all(6), decoration: BoxDecoration(color: const Color(0xFF1a1a1a), borderRadius: BorderRadius.circular(10)), child: Center(child: Text(i==0?"Host - Sound ON":"Invite ${i} - Sound ON", style: const TextStyle(color: Colors.white, fontSize: 11)))))); }}
-class VideoFeedScreen extends StatelessWidget{ const VideoFeedScreen({super.key}); @override Widget build(BuildContext context){ return const Center(child: Text("Video Feed - Camera + Upload", style: TextStyle(color: Colors.white))); }}
-class MessengerScreen extends StatelessWidget{ const MessengerScreen({super.key}); @override Widget build(BuildContext context){ return ListView(padding: const EdgeInsets.all(10), children: const [ListTile(leading: CircleAvatar(radius: 14, child: Text("P", style: TextStyle(fontSize: 10))), title: Text("PKArena_Official", style: TextStyle(color: Colors.white, fontSize: 12)), subtitle: Text("Gift sound system best hai!", style: TextStyle(color: Colors.white54, fontSize: 10))), ListTile(leading: CircleAvatar(radius: 14, child: Text("Q", style: TextStyle(fontSize: 10))), title: Text("Queen Live", style: TextStyle(color: Colors.white, fontSize: 12)), subtitle: Text("PK karoge?", style: TextStyle(color: Colors.white54, fontSize: 10)))]); }}
-class GamesScreen extends StatelessWidget{ const GamesScreen({super.key}); @override Widget build(BuildContext context){ return GridView.count(crossAxisCount: 2, padding: const EdgeInsets.all(10), children: const [Card(color: Color(0xFF1a1a1a), child: Center(child: Text("PK Battle - 21 Games", style: TextStyle(color: Colors.white, fontSize: 11)))), Card(color: Color(0xFF1a1a1a), child: Center(child: Text("Ludo - 6 Games", style: TextStyle(color: Colors.white, fontSize: 11)))), Card(color: Color(0xFF1a1a1a), child: Center(child: Text("Card - 10 Games", style: TextStyle(color: Colors.white, fontSize: 11)))), Card(color: Color(0xFF1a1a1a), child: Center(child: Text("Football - 9 Games", style: TextStyle(color: Colors.white, fontSize: 11))))]); }}
-class WalletScreen extends StatelessWidget{ const WalletScreen({super.key}); @override Widget build(BuildContext context){ return const Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text("5,000 Coins", style: TextStyle(color: Colors.amber, fontSize: 24, fontWeight: FontWeight.bold)), Text("~ \$99.50 USD - Recharge 193 Countries", style: TextStyle(color: Colors.white54, fontSize: 10))])); }}
-class ProfileScreen extends StatelessWidget{ const ProfileScreen({super.key}); @override Widget build(BuildContext context){ return const Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [CircleAvatar(radius: 30, backgroundColor: Colors.pink, child: Icon(Icons.person, size: 30)), SizedBox(height: 6), Text("Rass Jigar @rass_jigar", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)), Text("Host Mode ON - 1250 Diamonds", style: TextStyle(color: Colors.white54, fontSize: 10))])); }}
-
+class RoomListScreen extends StatelessWidget{ RoomListScreen({super.key}); @override Widget build(BuildContext context){ return SafeArea(child: Column(children: [Padding(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8), child: Row(children: [const Text("RASS LIVE - Score", style: TextStyle(color: Colors.pink, fontWeight: FontWeight.bold, fontSize: 16)), const Spacer(), const Icon(Icons.live_tv, color: Colors.pink, size: 18)])), const Padding(padding: EdgeInsets.symmetric(horizontal: 12), child: Align(alignment: Alignment.centerLeft, child: Text("👑 PK King: Ali Khan", style: TextStyle(color: Colors.amber, fontSize: 10, fontWeight: FontWeight.bold)))), Expanded(child: ListView.builder(padding: const EdgeInsets.all(10), itemCount: rooms.length, itemBuilder: (c,i){ final r = rooms[i]; return GestureDetector(onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=> LiveRoomScreen(room: r))), child: Container(margin: const EdgeInsets.only(bottom: 8), padding: const EdgeInsets.all(10), decoration: BoxDecoration(color: const Color(0xFF1a1a1a), borderRadius: BorderRadius.circular(10)), child: Row(children: [CircleAvatar(radius: 18, backgroundColor: Colors.pink, child: Text("${i+1}", style: const TextStyle(fontSize: 11))), const SizedBox(width:8), Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text("${r.name} ${r.emoji}", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)), Text("Viewers: ${r.viewers} | Score: ${r.score}", style: const TextStyle(color: Colors.white54, fontSize: 9))])), Container(padding: const EdgeInsets.symmetric(horizontal:5, vertical:2), decoration: BoxDecoration(border: Border.all(color: Colors.amber), borderRadius: BorderRadius.circular(5)), child: Text("${r.score}", style: const TextStyle(color: Colors.amber, fontSize: 10)))]))); }))]))); }}
+class PrivateRoomScreen extends StatelessWidget{ PrivateRoomScreen({super.key}); @override Widget build(BuildContext context){ return const Center(child: Text("Private 1V1 - Sound ON", style: TextStyle(color: Colors.white))); }}
+class FamilyRoomScreen extends StatelessWidget{ FamilyRoomScreen({super.key}); @override Widget build(BuildContext context){ return GridView.count(crossAxisCount: 2, padding: const EdgeInsets.all(16), children: List.generate(4, (i)=> Container(margin: const EdgeInsets.all(6), decoration: BoxDecoration(color: const Color(0xFF1a1a1a), borderRadius: BorderRadius.circular(10)), child: Center(child: Text(i==0?"Host":"Invite", style: const TextStyle(color: Colors.white, fontSize: 12)))))); }}
+class VideoFeedScreen extends StatelessWidget{ VideoFeedScreen({super.key}); @override Widget build(BuildContext context){ return const Center(child: Text("Video Feed", style: TextStyle(color: Colors.white))); }}
+class MessengerScreen extends StatelessWidget{ MessengerScreen({super.key}); @override Widget build(BuildContext context){ return ListView(padding: const EdgeInsets.all(10), children: const [ListTile(leading: CircleAvatar(radius: 14, child: Text("P", style: TextStyle(fontSize: 10))), title: Text("PKArena_Official", style: TextStyle(color: Colors.white, fontSize: 12)), subtitle: Text("Gift sound best", style: TextStyle(color: Colors.white54, fontSize: 10))), ListTile(leading: CircleAvatar(radius: 14, child: Text("Q", style: TextStyle(fontSize: 10))), title: Text("Queen Live", style: TextStyle(color: Colors.white, fontSize: 12)), subtitle: Text("PK karoge?", style: TextStyle(color: Colors.white54, fontSize: 10)))]); }}
+class GamesScreen extends StatelessWidget{ GamesScreen({super.key}); @override Widget build(BuildContext context){ return GridView.count(crossAxisCount: 2, padding: const EdgeInsets.all(10), children: const [Card(color: Color(0xFF1a1a1a), child: Center(child: Text("PK Battle", style: TextStyle(color: Colors.white, fontSize: 11)))), Card(color: Color(0xFF1a1a1a), child: Center(child: Text("Ludo", style: TextStyle(color: Colors.white, fontSize: 11)))), Card(color: Color(0xFF1a1a1a), child: Center(child: Text("Card", style: TextStyle(color: Colors.white, fontSize: 11)))), Card(color: Color(0xFF1a1a1a), child: Center(child: Text("Football", style: TextStyle(color: Colors.white, fontSize: 11))))]); }}
+class WalletScreen extends StatelessWidget{ WalletScreen({super.key}); @override Widget build(BuildContext context){ return const Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text("5,000 Coins", style: TextStyle(color: Colors.amber, fontSize: 24, fontWeight: FontWeight.bold)), Text("~ \$99.50 USD", style: TextStyle(color: Colors.white54, fontSize: 11))])); }}
+class ProfileScreen extends StatelessWidget{ ProfileScreen({super.key}); @override Widget build(BuildContext context){ return const Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [CircleAvatar(radius: 30, backgroundColor: Colors.pink, child: Icon(Icons.person, size: 30)), SizedBox(height: 6), Text("Rass Jigar @rass_jigar", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)), Text("Host Mode ON - 1250 Diamonds", style: TextStyle(color: Colors.white54, fontSize: 10))])); }}
 class LiveRoomScreen extends StatefulWidget{ final RoomData room; const LiveRoomScreen({super.key, required this.room}); @override State<LiveRoomScreen> createState()=> _LiveRoomScreenState(); }
 class _LiveRoomScreenState extends State<LiveRoomScreen>{
   RassGift? selected; int count=1; int myScore=0; bool isLive=false;
   @override Widget build(BuildContext context){
     return Scaffold(body: Stack(children: [
-      Container(width: double.infinity, height: double.infinity, decoration: const BoxDecoration(gradient: LinearGradient(colors: [Color(0xFF2a1a4a), Colors.black])),
-        child: SafeArea(child: Column(children: [
-          Padding(padding: const EdgeInsets.all(8), child: Row(children: [IconButton(onPressed: ()=> Navigator.pop(context), icon: const Icon(Icons.arrow_back, color: Colors.white, size: 18)), CircleAvatar(radius: 14, backgroundColor: Colors.pink, child: Text(widget.room.name[0], style: const TextStyle(fontSize: 10))), const SizedBox(width:5), Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(widget.room.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11)), Text("ID: ${widget.room.viewers} • ${isLive?"LIVE":"No PK"}", style: const TextStyle(fontSize:8, color: Colors.white70))]), const Spacer(), Container(padding: const EdgeInsets.symmetric(horizontal:5, vertical:2), decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(8)), child: Text(isLive?"LIVE":"No PK", style: const TextStyle(fontSize:8, fontWeight: FontWeight.bold))), const SizedBox(width:4), Text("💎 $myScore", style: const TextStyle(color: Colors.amber, fontSize: 10)))])),
-          const Spacer(),
-          Container(margin: const EdgeInsets.all(14), padding: const EdgeInsets.all(14), decoration: BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.circular(8), border: Border.all(color: isLive?Colors.green:Colors.white24)), child: Column(children: [
-            Icon(isLive?Icons.videocam:Icons.videocam_off, size: 28, color: isLive?Colors.green:Colors.grey),
-            const SizedBox(height:6), Text(isLive?"LIVE - ${widget.room.name} - ZEGO ID: $ZEGO_APP_ID - STREAMING":"Camera OFF - TAP Go LIVE - Sound System ON", textAlign: TextAlign.center, style: const TextStyle(color: Colors.white70, fontSize: 9)),
-          ])),
-          Padding(padding: const EdgeInsets.all(8), child: ElevatedButton(onPressed: ()=> setState(()=> isLive=!isLive), style: ElevatedButton.styleFrom(backgroundColor: isLive?Colors.red:Colors.blue, minimumSize: const Size(double.infinity, 36)), child: Text(isLive?"END LIVE":"Go LIVE in RassLive", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)))),
-          const SizedBox(height: 300),
-        ]))),
-      DraggableScrollableSheet(initialChildSize: 0.46, minChildSize: 0.32, maxChildSize: 0.82, builder: (context, sc){
-        return Container(decoration: const BoxDecoration(color: Color(0xFF1c1c1e), borderRadius: BorderRadius.vertical(top: Radius.circular(12))), child: Column(children: [
-          const SizedBox(height:5), Container(width:28, height:3, decoration: BoxDecoration(color: Colors.grey[600], borderRadius: BorderRadius.circular(2))), const SizedBox(height:5),
-          Padding(padding: const EdgeInsets.symmetric(horizontal:8), child: Row(children: [Container(padding: const EdgeInsets.symmetric(horizontal:5, vertical:1), decoration: BoxDecoration(color: Colors.orange, borderRadius: BorderRadius.circular(5)), child: const Text("Rass Host Live 500 - Sound ON", style: TextStyle(fontSize:7, fontWeight: FontWeight.bold))), const Spacer(), const Text("Bonus 1 2 5 10 20", style: TextStyle(fontSize:8, color: Colors.white70))])),
-          const SizedBox(height:5),
-          Expanded(child: GridView.builder(controller: sc, padding: const EdgeInsets.all(5), gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4, crossAxisSpacing: 5, mainAxisSpacing: 5, childAspectRatio: 0.70), itemCount: rassGifts.length, itemBuilder: (c,i){
-            final g = rassGifts[i]; final isSel = selected?.id==g.id;
-            return GestureDetector(onTap: ()=> setState(()=> selected=g), child: Container(decoration: BoxDecoration(color: isSel?const Color(0xFF4a3a00):const Color(0xFF2c2c2e), borderRadius: BorderRadius.circular(6), border: isSel?Border.all(color: Colors.amber, width:1): g.isBest?Border.all(color: const Color(0xFF6a5a00)): null), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text(g.emoji, style: TextStyle(fontSize: g.isBest?18:16)), const SizedBox(height:1), Text(g.name, style: const TextStyle(fontSize:5, fontWeight: FontWeight.bold), textAlign: TextAlign.center, maxLines:2), Text("${g.price}", style: const TextStyle(fontSize:5, color: Colors.amber))])));
-          })),
-          Container(padding: const EdgeInsets.all(6), decoration: const BoxDecoration(color: Color(0xFF121212), border: Border(top: BorderSide(color: Colors.white12))), child: Row(children: [
-            Row(children: [1,5,10,20].map((n)=> GestureDetector(onTap: ()=> setState(()=> count=n), child: Container(margin: const EdgeInsets.only(right:3), width:24, height:22, decoration: BoxDecoration(color: count==n?Colors.white:Colors.white12, borderRadius: BorderRadius.circular(4)), child: Center(child: Text("$n", style: TextStyle(fontSize:9, color: count==n?Colors.black:Colors.white, fontWeight: FontWeight.bold)))))).toList()),
-            const Spacer(),
-            GestureDetector(onTap: (){ if(selected!=null){ setState(()=> myScore+= selected!.price*count); ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${selected!.emoji} ${selected!.name} x$count Sent! Sound ON!"), backgroundColor: selected!.color, duration: const Duration(milliseconds: 700))); }}, child: Container(padding: const EdgeInsets.symmetric(horizontal:16, vertical:5), decoration: BoxDecoration(color: Colors.pink, borderRadius: BorderRadius.circular(14)), child: const Text("Send", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 11)))),
-          ])),
-        ]));
-      }),
+      Container(width: double.infinity, height: double.infinity, decoration: const BoxDecoration(gradient: LinearGradient(colors: [Color(0xFF2a1a4a), Colors.black])), child: SafeArea(child: Column(children: [Padding(padding: const EdgeInsets.all(8), child: Row(children: [IconButton(onPressed: ()=> Navigator.pop(context), icon: const Icon(Icons.arrow_back, color: Colors.white, size: 18)), CircleAvatar(radius: 14, backgroundColor: Colors.pink, child: Text(widget.room.name[0], style: const TextStyle(fontSize: 10))), const SizedBox(width:5), Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(widget.room.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11)), Text("ID: ${widget.room.viewers}", style: const TextStyle(fontSize:8, color: Colors.white70))]), const Spacer(), Container(padding: const EdgeInsets.symmetric(horizontal:5, vertical:2), decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(8)), child: Text(isLive?"LIVE":"No PK", style: const TextStyle(fontSize:8, fontWeight: FontWeight.bold))), const SizedBox(width:4), Text("💎 $myScore", style: const TextStyle(color: Colors.amber, fontSize: 10))])), const Spacer(), Container(margin: const EdgeInsets.all(14), padding: const EdgeInsets.all(14), decoration: BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.circular(8), border: Border.all(color: Colors.white24)), child: Column(children: [Icon(isLive?Icons.videocam:Icons.videocam_off, size: 28, color: isLive?Colors.green:Colors.grey), const SizedBox(height:6), Text(isLive?"LIVE - ${widget.room.name}":"Camera OFF", textAlign: TextAlign.center, style: const TextStyle(color: Colors.white70, fontSize: 9))])), Padding(padding: const EdgeInsets.all(8), child: ElevatedButton(onPressed: ()=> setState(()=> isLive=!isLive), style: ElevatedButton.styleFrom(backgroundColor: isLive?Colors.red:Colors.blue, minimumSize: const Size(double.infinity, 36)), child: Text(isLive?"END LIVE":"Go LIVE", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)))), const SizedBox(height: 300)]))),
+      DraggableScrollableSheet(initialChildSize: 0.46, minChildSize: 0.32, maxChildSize: 0.82, builder: (context, sc){ return Container(decoration: const BoxDecoration(color: Color(0xFF1c1c1e), borderRadius: BorderRadius.vertical(top: Radius.circular(12))), child: Column(children: [const SizedBox(height:5), Container(width:28, height:3, decoration: BoxDecoration(color: Colors.grey[600], borderRadius: BorderRadius.circular(2))), const SizedBox(height:5), Expanded(child: GridView.builder(controller: sc, padding: const EdgeInsets.all(5), gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4, crossAxisSpacing: 5, mainAxisSpacing: 5, childAspectRatio: 0.70), itemCount: rassGifts.length, itemBuilder: (c,i){ final g = rassGifts[i]; final isSel = selected?.id==g.id; return GestureDetector(onTap: ()=> setState(()=> selected=g), child: Container(decoration: BoxDecoration(color: isSel?const Color(0xFF4a3a00):const Color(0xFF2c2c2e), borderRadius: BorderRadius.circular(6), border: isSel?Border.all(color: Colors.amber, width:1): null), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text(g.emoji, style: TextStyle(fontSize: g.isBest?18:16)), const SizedBox(height:1), Text(g.name, style: const TextStyle(fontSize:5, fontWeight: FontWeight.bold), textAlign: TextAlign.center, maxLines:2), Text("${g.price}", style: const TextStyle(fontSize:5, color: Colors.amber))]))); })), Container(padding: const EdgeInsets.all(6), decoration: const BoxDecoration(color: Color(0xFF121212), border: Border(top: BorderSide(color: Colors.white12))), child: Row(children: [Row(children: [1,5,10,20].map((n)=> GestureDetector(onTap: ()=> setState(()=> count=n), child: Container(margin: const EdgeInsets.only(right:3), width:24, height:22, decoration: BoxDecoration(color: count==n?Colors.white:Colors.white12, borderRadius: BorderRadius.circular(4)), child: Center(child: Text("$n", style: TextStyle(fontSize:9, color: count==n?Colors.black:Colors.white, fontWeight: FontWeight.bold)))))).toList()), const Spacer(), GestureDetector(onTap: (){ if(selected!=null){ setState(()=> myScore+= selected!.price*count); ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${selected!.emoji} ${selected!.name} x$count Sent!"), backgroundColor: selected!.color, duration: const Duration(milliseconds: 700))); }}, child: Container(padding: const EdgeInsets.symmetric(horizontal:16, vertical:5), decoration: BoxDecoration(color: Colors.pink, borderRadius: BorderRadius.circular(14)), child: const Text("Send", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 11))))]))])); }),
     ]));
   }
 }
