@@ -19,22 +19,28 @@ jobs:
         run: |
           flutter clean
           rm -rf android
-          flutter create . --platforms=android --project-name rasslive_legendary
+          flutter create --platforms=android --org com.rasslive.app . --overwrite
+          ls -R android/app | head -n 100
       - name: Fix SDK and NDK versions
         run: |
-          sed -i 's/minSdkVersion 21/minSdkVersion 23/g' android/app/build.gradle
-          sed -i 's/minSdkVersion 22/minSdkVersion 23/g' android/app/build.gradle
-          sed -i 's/minSdk 21/minSdk 23/g' android/app/build.gradle
-          sed -i 's/compileSdkVersion 34/compileSdkVersion 36/g' android/app/build.gradle
-          sed -i 's/compileSdk 34/compileSdk 36/g' android/app/build.gradle
-          sed -i 's/targetSdkVersion 34/targetSdkVersion 36/g' android/app/build.gradle
-          sed -i 's/targetSdk 34/targetSdk 36/g' android/app/build.gradle
-          if grep -q "ndkVersion" android/app/build.gradle; then sed -i 's/ndkVersion.*/ndkVersion "27.0.12077973"/' android/app/build.gradle; else sed -i '/^android {/a \    ndkVersion "27.0.12077973"' android/app/build.gradle; fi
-          cat android/app/build.gradle
+          FILE=""
+          if [ -f "android/app/build.gradle" ]; then FILE="android/app/build.gradle"; fi
+          if [ -f "android/app/build.gradle.kts" ]; then FILE="android/app/build.gradle.kts"; fi
+          echo "Found file: $FILE"
+          cat $FILE
+          sed -i 's/minSdkVersion 21/minSdkVersion 23/g' $FILE || true
+          sed -i 's/minSdkVersion 22/minSdkVersion 23/g' $FILE || true
+          sed -i 's/minSdk = 21/minSdk = 23/g' $FILE || true
+          sed -i 's/compileSdkVersion 34/compileSdkVersion 36/g' $FILE || true
+          sed -i 's/compileSdk = 34/compileSdk = 36/g' $FILE || true
+          sed -i 's/targetSdkVersion 34/targetSdkVersion 36/g' $FILE || true
+          sed -i 's/targetSdk = 34/targetSdk = 36/g' $FILE || true
+          if ! grep -q "ndkVersion" $FILE; then echo '    ndkVersion = "27.0.12077973"' >> $FILE; fi
+          sed -i 's/ndkVersion.*/    ndkVersion = "27.0.12077973"/' $FILE || true
+          cat $FILE
       - name: Build APK
         run: |
           flutter pub get
-          flutter pub upgrade
           flutter build apk --release --no-tree-shake-icons
       - name: Upload APK
         uses: actions/upload-artifact@v4
