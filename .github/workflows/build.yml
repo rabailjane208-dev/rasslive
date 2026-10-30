@@ -1,4 +1,4 @@
-name: RASS LIVE FINAL BEST
+name: RASS LIVE 80 GIFTS ZEGO FINAL
 on:
   push:
     branches: [master, main]
@@ -15,34 +15,23 @@ jobs:
         with:
           flutter-version: '3.29.2'
           channel: 'stable'
-      - name: Fix Android
-        run: |
+      - run: |
           flutter clean
           rm -rf android
           flutter create --platforms=android --org com.rasslive.app . --overwrite
-      - name: Copy Final Code
-        run: |
+      - run: |
           cp rass_legendary_final.dart lib/main.dart
-          echo "✅ FINAL CODE COPIED - ROOM + 50 BEST GIFTS + CAMERA ON"
-          ls -lh lib/main.dart
-      - name: Fix SDK
-        run: |
+      - run: |
           FILE="android/app/build.gradle.kts"
           [ -f "android/app/build.gradle" ] && FILE="android/app/build.gradle"
           sed -i 's/minSdkVersion 21/minSdkVersion 23/g' $FILE || true
           sed -i 's/minSdk = 21/minSdk = 23/g' $FILE || true
-          sed -i 's/compileSdkVersion 34/compileSdkVersion 36/g' $FILE || true
           sed -i 's/compileSdk = 34/compileSdk = 36/g' $FILE || true
-          sed -i 's/targetSdkVersion 34/targetSdkVersion 36/g' $FILE || true
-          sed -i 's/targetSdk = 34/targetSdk = 36/g' $FILE || true
           if ! grep -q "ndkVersion" $FILE; then sed -i '/android {/a \    ndkVersion = "27.0.12077973"' $FILE; fi
-      - name: Build APK
-        run: |
+      - run: |
           flutter pub get
           flutter build apk --release --no-tree-shake-icons
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: RASSLIVE-FINAL-ROOM-BEST-GIFTS
+          name: RASSLIVE-80-GIFTS-ZEGO-FINAL
           path: "**/build/app/outputs/flutter-apk/*.apk"
-          retention-days: 7
