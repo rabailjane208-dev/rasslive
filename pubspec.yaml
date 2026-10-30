@@ -1,20 +1,8 @@
-name: rass_live
-description: RASS LIVE - 80 Gifts - Gift + Sound System Best - GREEN #55
-publish_to: 'none'
-version: 1.0.0+55
-
-environment:
-  sdk: ">=3.0.0 <4.0.0"
-
 dependencies:
   flutter:
     sdk: flutter
+  camera: ^0.10.5+9
+  permission_handler: ^11.3.0
+  zego_uikit_prebuilt_live_streaming: ^2.13.0
+  zego_uikit_signaling_plugin: ^2.5.0
   cupertino_icons: ^1.0.2
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^3.0.0
-
-flutter:
-  uses-material-design: true
