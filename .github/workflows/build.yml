@@ -20,6 +20,17 @@ jobs:
           flutter clean
           rm -rf android
           flutter create . --platforms=android --project-name rasslive_legendary
+      - name: Fix SDK and NDK versions
+        run: |
+          sed -i 's/minSdkVersion 21/minSdkVersion 23/g' android/app/build.gradle
+          sed -i 's/minSdkVersion 22/minSdkVersion 23/g' android/app/build.gradle
+          sed -i 's/minSdk 21/minSdk 23/g' android/app/build.gradle
+          sed -i 's/compileSdkVersion 34/compileSdkVersion 36/g' android/app/build.gradle
+          sed -i 's/compileSdk 34/compileSdk 36/g' android/app/build.gradle
+          sed -i 's/targetSdkVersion 34/targetSdkVersion 36/g' android/app/build.gradle
+          sed -i 's/targetSdk 34/targetSdk 36/g' android/app/build.gradle
+          if grep -q "ndkVersion" android/app/build.gradle; then sed -i 's/ndkVersion.*/ndkVersion "27.0.12077973"/' android/app/build.gradle; else sed -i '/^android {/a \    ndkVersion "27.0.12077973"' android/app/build.gradle; fi
+          cat android/app/build.gradle
       - name: Build APK
         run: |
           flutter pub get
