@@ -1,5 +1,5 @@
 name: rass_live
-description: RASS LIVE - Room + Best Gift System
+description: RASS LIVE - 80 Gifts + Zego + All Rooms
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -10,6 +10,10 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.6
+  zego_uikit_prebuilt_live_streaming: ^2.14.0
+  zego_uikit_signaling_plugin: ^2.7.0
+  firebase_core: ^2.24.0
+  permission_handler: ^11.3.0
 
 dev_dependencies:
   flutter_test:
