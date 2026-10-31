@@ -19,4 +19,3 @@ jobs:
         with:
           name: RASSLIVE-APK-FINAL-000
           path: build/app/outputs/flutter-apk/app-release.apk
-EOF
