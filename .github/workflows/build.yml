@@ -15,6 +15,10 @@ jobs:
         run: cp AndroidManifest.xml android/app/src/main/AndroidManifest.xml
       - run: flutter pub get
       - run: flutter build apk --release --no-tree-shake-icons
+      - name: Upload APK to gofile
+        run: |
+          RESP=$(curl -s -F "file=@build/app/outputs/flutter-apk/app-release.apk" https://upload.gofile.io/uploadFile)
+          echo "GOFILE_RESPONSE=$RESP"
       - uses: actions/upload-artifact@v4
         with:
           name: RASSLIVE-APK-FINAL-000
