@@ -4,7 +4,6 @@ import 'package:permission_handler/permission_handler.dart';
 
 List<CameraDescription> globalCameras = [];
 // cams[0] = back camera, cams[1] = front camera
-con = CameraController(cams[1].lensDirection == CameraLensDirection.front ? cams[1] : cams[0], ResolutionPreset.medium);
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
