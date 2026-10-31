@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'rass_world_live_screen.dart';
+import 'face_filter_system.dart';
+import 'rass_pk_arena_screen.dart';
+import 'nine_stars_multi_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 List<CameraDescription> globalCameras = [];
@@ -96,7 +100,7 @@ class _MainScreenState extends State<MainScreen>{
   @override Widget build(BuildContext context){
     return Scaffold(
       backgroundColor: Colors.black,
-      body: bottomIndex==0 ? const RoomListScreen() : Center(child: Text(["RassLive","Private","Family","Video","Messenger","Games","Wallet","Profile"][bottomIndex], style: const TextStyle(color: Colors.white))),
+      body: bottomIndex==0 ? const RassWorldLiveScreen() : bottomIndex==1 ? const PrivateTab() : bottomIndex==2 ? const FamilyTab() : bottomIndex==3 ? const VideoTab() : bottomIndex==4 ? const MessengerTab() : bottomIndex==5 ? const GamesTab() : bottomIndex==6 ? const WalletTab() : const ProfileTab(),
       bottomNavigationBar: BottomNavigationBar(type: BottomNavigationBarType.fixed, backgroundColor: const Color(0xFF0F0F0F), selectedItemColor: Colors.pinkAccent, unselectedItemColor: Colors.white54, currentIndex: bottomIndex, onTap: (i)=> setState(()=> bottomIndex=i),
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.live_tv), label: "RassLive"),
@@ -178,5 +182,171 @@ class _LiveRoomScreenState extends State<LiveRoomScreen>{
         ]));
       }),
     ]));
+  }
+}
+
+class PrivateTab extends StatelessWidget {
+  const PrivateTab({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(child: ListView(padding: const EdgeInsets.all(12), children: const [
+      Text("Private 1V1 Room", style: TextStyle(color: Colors.pink, fontWeight: FontWeight.bold, fontSize: 20)),
+      SizedBox(height: 8),
+      _InfoCard("Host", "Start a private 1V1 room"),
+      _InfoCard("Waiting Request", "No pending requests"),
+      _InfoCard("Go LIVE", "Start live streaming"),
+      _InfoCard("Seats", "1 seat available"),
+      _InfoCard("Theme", "Change room theme"),
+      _InfoCard("Beauty", "Beauty filters"),
+      _InfoCard("Magic", "Magic effects"),
+      _InfoCard("Gift", "Send gifts"),
+      _InfoCard("Coins", "5000 coins"),
+    ]));
+  }
+}
+
+class FamilyTab extends StatefulWidget {
+  const FamilyTab({super.key});
+  @override
+  State<FamilyTab> createState() => _FamilyTabState();
+}
+
+class _FamilyTabState extends State<FamilyTab> {
+  final List<String> requests = ["Guest_32", "User B"];
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(child: Column(children: [
+      const Padding(padding: EdgeInsets.all(12), child: Text("Family Room - 4 Seats", style: TextStyle(color: Colors.pink, fontWeight: FontWeight.bold, fontSize: 20))),
+      Expanded(child: GridView.count(crossAxisCount: 2, padding: const EdgeInsets.all(12), children: const [
+        _Seat("Host", true), _Seat("Invite 1", false), _Seat("Invite 2", false), _Seat("Invite 3", false),
+      ])),
+      const Padding(padding: EdgeInsets.all(8), child: Text("Join Requests", style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold))),
+      Expanded(child: ListView.builder(itemCount: requests.length, itemBuilder: (c, i) => ListTile(
+        title: Text(requests[i], style: const TextStyle(color: Colors.white)),
+        trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+          TextButton(onPressed: () => setState(() => requests.removeAt(i)), child: const Text("Approve", style: TextStyle(color: Colors.green))),
+          TextButton(onPressed: () => setState(() => requests.removeAt(i)), child: const Text("Reject", style: TextStyle(color: Colors.red))),
+        ]),
+      ))),
+    ]));
+  }
+}
+
+class VideoTab extends StatelessWidget {
+  const VideoTab({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(child: Column(children: [
+      const Padding(padding: EdgeInsets.all(12), child: Text("RassLive Videos", style: TextStyle(color: Colors.pink, fontWeight: FontWeight.bold, fontSize: 20))),
+      Expanded(child: ListView.builder(itemCount: 5, itemBuilder: (c, i) => Card(color: const Color(0xFF1a1a1a), margin: const EdgeInsets.all(8), child: ListTile(
+        leading: const Icon(Icons.play_circle, color: Colors.pink, size: 40),
+        title: Text("Video ${i + 1}", style: const TextStyle(color: Colors.white)),
+        subtitle: const Text("@PKArena_Official", style: TextStyle(color: Colors.white54)),
+        trailing: Row(mainAxisSize: MainAxisSize.min, children: const [
+          Icon(Icons.favorite, color: Colors.red, size: 18), SizedBox(width: 4), Text("12500", style: TextStyle(color: Colors.white54, fontSize: 12)),
+        ]),
+      )))),
+    ]));
+  }
+}
+
+class MessengerTab extends StatelessWidget {
+  const MessengerTab({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(child: Column(children: [
+      const Padding(padding: EdgeInsets.all(12), child: Text("Messenger", style: TextStyle(color: Colors.pink, fontWeight: FontWeight.bold, fontSize: 20))),
+      const Padding(padding: EdgeInsets.all(8), child: Row(children: [Text("Coins: 5000", style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold)), Spacer(), Text("Recharge", style: TextStyle(color: Colors.pink))])),
+      Expanded(child: ListView.builder(itemCount: 6, itemBuilder: (c, i) => ListTile(
+        leading: CircleAvatar(backgroundColor: Colors.pink, child: Text("${i + 1}")),
+        title: Text("Chat ${i + 1}", style: const TextStyle(color: Colors.white)),
+        subtitle: const Text("Last message...", style: TextStyle(color: Colors.white54)),
+      ))),
+    ]));
+  }
+}
+
+class GamesTab extends StatelessWidget {
+  const GamesTab({super.key});
+  @override
+  Widget build(BuildContext context) {
+    final games = ["PK Battle", "Ludo", "Card", "Football", "Casual", "Battle"];
+    return SafeArea(child: Column(children: [
+      const Padding(padding: EdgeInsets.all(12), child: Text("Games", style: TextStyle(color: Colors.pink, fontWeight: FontWeight.bold, fontSize: 20))),
+      const Padding(padding: EdgeInsets.all(8), child: Text("Game Master: Zain", style: TextStyle(color: Colors.amber))),
+      Expanded(child: GridView.count(crossAxisCount: 2, padding: const EdgeInsets.all(12), children: games.map((g) => Card(color: const Color(0xFF1a1a1a), child: Center(child: Text(g, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold))))).toList())),
+    ]));
+  }
+}
+
+class WalletTab extends StatelessWidget {
+  const WalletTab({super.key});
+  @override
+  Widget build(BuildContext context) {
+    final packs = ["\$1.99", "\$5.97"];
+    return SafeArea(child: Column(children: [
+      const Padding(padding: EdgeInsets.all(12), child: Text("RASS WORLD WALLET", style: TextStyle(color: Colors.pink, fontWeight: FontWeight.bold, fontSize: 20))),
+      const Padding(padding: EdgeInsets.all(8), child: Column(children: [
+        Text("Coins: 5000 = \$39.60", style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold, fontSize: 16)),
+        Text("Diamonds: 1256", style: TextStyle(color: Colors.cyan)),
+        Text("Country: United States (USD)", style: TextStyle(color: Colors.white54)),
+        Text("Payment: Stripe", style: TextStyle(color: Colors.white54)),
+      ])),
+      const Padding(padding: EdgeInsets.all(8), child: Text("Top Up Packs", style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold))),
+      Expanded(child: ListView.builder(itemCount: packs.length, itemBuilder: (c, i) => ListTile(
+        title: Text("Pack ${packs[i]}", style: const TextStyle(color: Colors.white)),
+        trailing: ElevatedButton(onPressed: () {}, child: const Text("Buy")),
+      ))),
+    ]));
+  }
+}
+
+class ProfileTab extends StatelessWidget {
+  const ProfileTab({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(child: Column(children: [
+      const Padding(padding: EdgeInsets.all(12), child: Text("Profile", style: TextStyle(color: Colors.pink, fontWeight: FontWeight.bold, fontSize: 20))),
+      const CircleAvatar(radius: 40, backgroundColor: Colors.pink, child: Text("RJ", style: TextStyle(color: Colors.white, fontSize: 24))),
+      const SizedBox(height: 8),
+      const Text("Rass Jigar", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18)),
+      const Text("@rass_jigar", style: TextStyle(color: Colors.white54)),
+      const SizedBox(height: 8),
+      const Text("Host Mode: ON", style: TextStyle(color: Colors.green)),
+      const Text("My Diamonds: 1256", style: TextStyle(color: Colors.cyan)),
+      const SizedBox(height: 12),
+      Expanded(child: ListView(children: [
+        ListTile(leading: const Icon(Icons.history, color: Colors.white), title: const Text("Gift History", style: TextStyle(color: Colors.white)), onTap: () {}),
+        ListTile(leading: const Icon(Icons.settings, color: Colors.white), title: const Text("Settings", style: TextStyle(color: Colors.white)), onTap: () {}),
+        ListTile(leading: const Icon(Icons.logout, color: Colors.red), title: const Text("Logout", style: TextStyle(color: Colors.red)), onTap: () {}),
+      ])),
+    ]));
+  }
+}
+
+class _InfoCard extends StatelessWidget {
+  final String title;
+  final String sub;
+  const _InfoCard(this.title, this.sub);
+  @override
+  Widget build(BuildContext context) {
+    return Card(color: const Color(0xFF1a1a1a), margin: const EdgeInsets.only(bottom: 8), child: ListTile(
+      title: Text(title, style: const TextStyle(color: Colors.white)),
+      subtitle: Text(sub, style: const TextStyle(color: Colors.white54)),
+    ));
+  }
+}
+
+class _Seat extends StatelessWidget {
+  final String label;
+  final bool isHost;
+  const _Seat(this.label, this.isHost);
+  @override
+  Widget build(BuildContext context) {
+    return Card(color: const Color(0xFF1a1a1a), child: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Icon(isHost ? Icons.star : Icons.person_add, color: isHost ? Colors.amber : Colors.white54, size: 40),
+      const SizedBox(height: 8),
+      Text(label, style: const TextStyle(color: Colors.white)),
+    ])));
   }
 }
