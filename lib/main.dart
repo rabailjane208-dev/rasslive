@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'rass_world_live_screen.dart';
+import 'live_room_screen.dart';
 import 'rass_pk_arena_screen.dart';
 import 'nine_stars_multi_screen.dart';
 import 'queen_live_screen.dart';
@@ -56,11 +56,11 @@ class RassLiveScoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = [
-      {"t": "Rass World 🌍", "v": "1257", "s": "100", "w": const RassWorldLiveScreen()},
+      {"t": "Rass World 🌍", "v": "1257", "s": "100", "w": const LiveRoomScreen(roomID: "rassworld", userID: "user1", userName: "Rass Jigar")},
       {"t": "Queen Live 👑", "v": "892", "s": "85", "w": const QueenLiveScreen()},
       {"t": "Rass PK Arena", "v": "543", "s": "70", "w": const RassPkArenaScreen()},
       {"t": "9 Stars Multi ⭐", "v": "321", "s": "60", "w": const NineStarsMultiScreen()},
-      {"t": "Voice Live 🎙️", "v": "210", "s": "50", "w": const RassWorldLiveScreen()},
+      {"t": "Voice Live 🎙️", "v": "210", "s": "50", "w": const LiveRoomScreen(roomID: "voicelive", userID: "user1", userName: "Rass Jigar")},
     ];
     return Scaffold(
       backgroundColor: Colors.black,
