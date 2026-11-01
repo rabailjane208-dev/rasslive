@@ -16,6 +16,10 @@ jobs:
       - name: Build APK
         run: |
           flutter create . --platforms=android --project-name rasslive --org com.rasslive.app
+          sed -i 's/compileSdk.*/compileSdk 35/' android/app/build.gradle
+          sed -i 's/compileSdkVersion.*/compileSdkVersion 35/' android/app/build.gradle || true
+          sed -i 's/targetSdk.*/targetSdk 35/' android/app/build.gradle
+          sed -i 's/targetSdkVersion.*/targetSdkVersion 35/' android/app/build.gradle || true
           flutter pub get
           flutter build apk --release --no-tree-shake-icons
       - uses: actions/upload-artifact@v4
