@@ -292,24 +292,6 @@ class _RassWorldLiveScreenState extends State<RassWorldLiveScreen> {
 
   Widget _pill(String t) => Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2), decoration: BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.circular(8)), child: Text(t, style: const TextStyle(color: Colors.white, fontSize: 10)));
 
-  void _sendGift(GiftItem g) {
-    setState(() {
-      coins += g.price * qty;
-      toast = "You sent ${g.name} x$qty";
-      if (g.name == "Sports Car" || g.name == "Castle" || g.name == "Pirate Booty") {
-        animEmoji = g.name == "Sports Car" ? "🏎️" : g.name == "Castle" ? "🐉" : "📦";
-        showAnim = true;
-      }
-    });
-    Future.delayed(const Duration(seconds: 2), () {
-      if (mounted) setState(() => toast = null);
-    });
-    if (showAnim) {
-      Future.delayed(const Duration(seconds: 3), () {
-        if (mounted) setState(() => showAnim = false);
-      });
-    }
-  }
 }
 
 class _SideIcon extends StatelessWidget {
