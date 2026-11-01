@@ -15,13 +15,15 @@ jobs:
           channel: 'stable'
       - name: Build APK
         run: |
+          flutter clean
+          rm -rf android
           flutter create . --platforms=android --project-name rasslive --org com.rasslive.app
-          sed -i 's/compileSdk.*/compileSdk 35/' android/app/build.gradle
-          sed -i 's/compileSdkVersion.*/compileSdkVersion 35/' android/app/build.gradle || true
-          sed -i 's/targetSdk.*/targetSdk 35/' android/app/build.gradle
-          sed -i 's/targetSdkVersion.*/targetSdkVersion 35/' android/app/build.gradle || true
+          sed -i 's/compileSdk .*/compileSdk 35/' android/app/build.gradle
+          sed -i 's/targetSdk .*/targetSdk 35/' android/app/build.gradle
+          sed -i 's/minSdk .*/minSdk 23/' android/app/build.gradle || true
+          cat android/app/build.gradle
           flutter pub get
-          flutter build apk --release --no-tree-shake-icons
+          flutter build apk --release --no-tree-shake-icons -v
       - uses: actions/upload-artifact@v4
         with:
           name: RASS-LIVE-CAMERA-APK
