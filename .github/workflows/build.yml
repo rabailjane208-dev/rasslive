@@ -13,14 +13,11 @@ jobs:
         with:
           flutter-version: '3.24.5'
           channel: 'stable'
-      - name: Recreate Android Project
+      - name: Build APK
         run: |
-          flutter create . --platforms=android --project-name rasslive
-          rm -f lib/main.dart
-          git checkout HEAD -- lib/main.dart || echo "keep current main.dart"
-          ls lib/
-      - run: flutter pub get
-      - run: flutter build apk --release --no-tree-shake-icons -v
+          flutter create . --platforms=android --project-name rasslive --org com.rasslive.app
+          flutter pub get
+          flutter build apk --release --no-tree-shake-icons
       - uses: actions/upload-artifact@v4
         with:
           name: RASS-LIVE-CAMERA-APK
