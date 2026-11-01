@@ -48,11 +48,11 @@ class _LiveRoomScreenState extends State<LiveRoomScreen> {
                       ..turnOnCameraWhenJoining = true
                       ..turnOnMicrophoneWhenJoining = true
                       ..cameraFacingFront = isCameraFront
-                      ..video = ZegoLiveStreamingVideoConfig(
-                        resolution: ZegoLiveStreamingVideoResolution.high,
-                        fps: 30,
-                      )
-                      ..beauty = true,
+                      ..videoConfig = ZegoVideoConfig()
+                      ..resolution = ZegoVideoResolutionPreset.hd720
+                      ..bitrate = 1500
+                      ..fps = 30
+  ..beauty = true,
                   ),
           ),
           Positioned(top: 40, left: 10, right: 10, child: _buildTopBar()),
