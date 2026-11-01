@@ -1,14 +1,14 @@
-name: rass_live
-description: RASS LIVE CAMERA ONLY
+name: rasslive
+description: RASS LIVE - PK Live App HD
 publish_to: 'none'
-version: 1.0.0+73
+version: 2.0.0+1
 environment:
   sdk: '>=3.0.0 <4.0.0'
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.8
   camera: ^0.10.5+9
-  permission_handler: ^11.3.1
+  audioplayers: ^6.0.0
+  cupertino_icons: ^1.0.2
 flutter:
   uses-material-design: true
