@@ -11,12 +11,6 @@ jobs:
           channel: 'stable'
       - name: Recreate android platform
         run: flutter create --org com.rasslive --platforms android .
-      - name: Show build.gradle
-        run: |
-          echo "=== android/build.gradle ==="
-          cat android/build.gradle
-          echo "=== android/app/build.gradle ==="
-          cat android/app/build.gradle
       - name: Apply AndroidManifest permissions
         run: cp AndroidManifest.xml android/app/src/main/AndroidManifest.xml
       - run: flutter pub get
