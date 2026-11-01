@@ -11,19 +11,11 @@ jobs:
           java-version: '17'
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.3'
+          flutter-version: '3.24.5'
           channel: 'stable'
-      - name: Fix Android Embedding + Build APK
-        run: |
-          rm -rf android
-          flutter create . --platforms=android --project-name rass_live
-          flutter pub get
-          sed -i 's/minSdkVersion flutter.minSdkVersion/minSdkVersion 23/' android/app/build.gradle
-          sed -i 's/minSdk flutter.minSdkVersion/minSdk 23/' android/app/build.gradle || true
-          sed -i 's/minSdkVersion 16/minSdkVersion 23/' android/app/build.gradle || true
-          flutter build apk --debug --verbose
-      - name: Upload GREEN APK
-        uses: actions/upload-artifact@v4
+      - run: flutter pub get
+      - run: flutter build apk --release --no-tree-shake-icons
+      - uses: actions/upload-artifact@v4
         with:
           name: RASS-LIVE-CAMERA-APK
-          path: build/app/outputs/flutter-apk/app-debug.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
