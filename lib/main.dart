@@ -59,7 +59,7 @@ class _LiveRoomDetailState extends State<LiveRoomDetail> with TickerProviderStat
 
   @override void initState(){ super.initState(); giftAnim=AnimationController(vsync: this, duration: const Duration(seconds: 3)); _genGifts(); _initCam(); }
   void _genGifts(){
-    List base=[{"n":"Party Popper","i":Icons.celebration,"c":Colors.yellow,"p":30},{"n":"Spider","i":Icons.bug_report,"c":Colors.purple,"p":100},{"n":"Candy","i":Icons.cake,"c":Colors.pink,"p":200},{"n":"Skull","i":Icons.skull,"c":Colors.white,"p":300},{"n":"Lucky Box","i":Icons.card_giftcard,"c":Colors.amber,"p":500},{"n":"Rose","i":Icons.local_florist,"c":Colors.pink,"p":1}];
+    List base=[{"n":"Party Popper","i":Icons.celebration,"c":Colors.yellow,"p":30},{"n":"Spider","i":Icons.bug_report,"c":Colors.purple,"p":100},{"n":"Candy","i":Icons.cake,"c":Colors.pink,"p":200},{{"n":"Skull","i":Icons.dangerous,"c":Colors.white,"p":300},{"n":"Lucky Box","i":Icons.card_giftcard,"c":Colors.amber,"p":500},{"n":"Rose","i":Icons.local_florist,"c":Colors.pink,"p":1}];
     for(int i=0;i<120;i++){var b=base[i%base.length]; allGifts.add({"name":b["n"],"icon":b["i"],"color":b["c"],"price":b["p"]+i,"cat": tabs[i%tabs.length]});}
   }
   Future<void> _initCam() async {
