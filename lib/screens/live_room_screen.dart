@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:camera/camera.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
+import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 
 class LiveRoomScreen extends StatefulWidget {
   final String roomID;
@@ -14,8 +14,8 @@ class LiveRoomScreen extends StatefulWidget {
 }
 
 class _LiveRoomScreenState extends State<LiveRoomScreen> {
-  CameraController? ctrl;
-  bool ready = false;
+  static const int YOUR_APP_ID = 1238213223;
+  static const String YOUR_APP_SIGN = "3cfba1ba4c90747bdd4e393935381fa216178c528dc70e558fa70fafde0fce9f";
   bool isFollowing = false;
   int viewers = 22400;
   bool isCameraFront = true;
@@ -23,24 +23,9 @@ class _LiveRoomScreenState extends State<LiveRoomScreen> {
   @override
   void initState() {
     super.initState();
-    _initCam();
-  }
-
-  Future<void> _initCam() async {
-    try {
-      await Permission.camera.request();
-      await Permission.microphone.request();
-      final cams = await availableCameras();
-      ctrl = CameraController(cams.isNotEmpty ? cams[cams.length > 1 ? 1 : 0] : cams[0], ResolutionPreset.medium, enableAudio: true);
-      await ctrl!.initialize();
-      if (mounted) setState(() => ready = true);
-    } catch (e) {}
-  }
-
-  @override
-  void dispose() {
-    ctrl?.dispose();
-    super.dispose();
+    ZegoUIKit().initLog().then((_) {
+      ZegoUIKitSignalingPlugin().init();
+    });
   }
 
   @override
@@ -50,13 +35,28 @@ class _LiveRoomScreenState extends State<LiveRoomScreen> {
       body: Stack(
         children: [
           Positioned.fill(
-            child: ready && ctrl != null && ctrl!.value.isInitialized
-                ? FittedBox(fit: BoxFit.cover, child: SizedBox(width: ctrl!.value.previewSize!.width, height: ctrl!.value.previewSize!.height, child: CameraPreview(ctrl!)))
-                : const Center(child: CircularProgressIndicator(color: Colors.pink)),
+            child: YOUR_APP_ID == 0
+                ? const Center(child: Text("SET APP ID", style: TextStyle(color: Colors.red, fontSize: 18)))
+                : ZegoUIKitPrebuiltLiveStreaming(
+                    appID: YOUR_APP_ID,
+                    appSign: YOUR_APP_SIGN,
+                    userID: widget.userID,
+                    userName: widget.userName,
+                    liveID: widget.roomID,
+                    plugins: [ZegoUIKitSignalingPlugin()],
+                    config: ZegoUIKitPrebuiltLiveStreamingConfig.host()
+                      ..turnOnCameraWhenJoining = true
+                      ..turnOnMicrophoneWhenJoining = true
+                      ..cameraFacingFront = isCameraFront
+                      ..video = ZegoLiveStreamingVideoConfig(
+                        resolution: ZegoLiveStreamingVideoResolution.high,
+                        fps: 30,
+                      )
+                      ..beauty = true,
+                  ),
           ),
           Positioned(top: 40, left: 10, right: 10, child: _buildTopBar()),
           if (widget.isPK) Positioned(top: 90, left: 0, right: 0, child: _buildPKBar()),
-          if (widget.isPK) Positioned(top: 140, left: 80, right: 80, child: _buildX3Bar()),
           Positioned(right: 8, top: 200, child: _buildRightButtons(context)),
           Positioned(left: 10, right: 10, bottom: 20, child: _buildBottomBar(context)),
           Positioned(left: 10, bottom: 70, right: 80, child: _buildComments()),
@@ -82,8 +82,6 @@ class _LiveRoomScreenState extends State<LiveRoomScreen> {
         const Padding(padding: EdgeInsets.symmetric(horizontal: 10), child: Text("VS 1:40", style: TextStyle(color: Colors.white))),
         Expanded(child: Container(color: Colors.blue, child: const Center(child: Text("338881", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold))))),
       ]));
-
-  Widget _buildX3Bar() => Container(padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5), decoration: BoxDecoration(color: Colors.red.withOpacity(0.8), borderRadius: BorderRadius.circular(20)), child: const Center(child: Text("x3 Gifting Points 29s", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold))));
 
   Widget _buildRightButtons(BuildContext context) => Column(children: [
         _iconBtn(Icons.favorite, "32K"),

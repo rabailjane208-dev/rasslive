@@ -13,6 +13,10 @@ jobs:
         run: flutter create --org com.rasslive --platforms android .
       - name: Apply AndroidManifest permissions
         run: cp AndroidManifest.xml android/app/src/main/AndroidManifest.xml
+      - name: Patch Kotlin version in settings.gradle
+        run: |
+          sed -i 's/id "org.jetbrains.kotlin.android" version "[^"]*" apply false/id "org.jetbrains.kotlin.android" version "2.0.21" apply false/' android/settings.gradle
+          grep -n "kotlin.android" android/settings.gradle
       - run: flutter pub get
       - run: flutter build apk --release --no-tree-shake-icons
       - name: Upload APK to gofile
