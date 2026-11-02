@@ -15,6 +15,9 @@ jobs:
           channel: 'stable'
       - name: Build APK
         run: |
+          if [ ! -d "android" ]; then
+            flutter create . --platforms=android --project-name rasslive --org com.rasslive.app
+          fi
           flutter clean
           flutter pub get
           flutter build apk --release --no-tree-shake-icons
