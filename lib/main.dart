@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'private_live.dart';
+import 'family_room.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +40,7 @@ class _MainNavScreenState extends State<MainNavScreen> {
     pages = [
       RassScoreScreen(userID: userID, userName: userName),
       PrivateLiveScreen(roomID: 'private_${DateTime.now().millisecondsSinceEpoch}'),
-      const FamilyRoomScreen(),
+      FamilyRoomScreen(roomID: "family_1", userID: userID, userName: userName),
       const VideoScreen(),
       const MessengerScreen(),
       const GameScreen(),
@@ -113,7 +114,6 @@ class RassScoreScreen extends StatelessWidget {
   }
 }
 
-class FamilyRoomScreen extends StatelessWidget { const FamilyRoomScreen({super.key}); @override Widget build(BuildContext context) => Scaffold(backgroundColor: Colors.black, appBar: AppBar(backgroundColor: Colors.black, title: const Text("Family Room", style: TextStyle(color: Colors.pink))), body: const Center(child: Text("Family Room", style: TextStyle(color: Colors.white)))); }
 class VideoScreen extends StatelessWidget { const VideoScreen({super.key}); @override Widget build(BuildContext context) => Scaffold(backgroundColor: Colors.black, appBar: AppBar(backgroundColor: Colors.black, title: const Text("Videos", style: TextStyle(color: Colors.pink))), body: const Center(child: Text("Videos", style: TextStyle(color: Colors.white)))); }
 class MessengerScreen extends StatelessWidget { const MessengerScreen({super.key}); @override Widget build(BuildContext context) => Scaffold(backgroundColor: Colors.black, appBar: AppBar(backgroundColor: Colors.black, title: const Text("Messenger", style: TextStyle(color: Colors.pink))), body: const Center(child: Text("Messenger", style: TextStyle(color: Colors.white)))); }
 class GameScreen extends StatelessWidget { const GameScreen({super.key}); @override Widget build(BuildContext context) => Scaffold(backgroundColor: Colors.black, appBar: AppBar(backgroundColor: Colors.black, title: const Text("Games", style: TextStyle(color: Colors.pink))), body: const Center(child: Text("Games", style: TextStyle(color: Colors.white)))); }
