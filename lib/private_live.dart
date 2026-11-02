@@ -46,13 +46,13 @@ class _PrivateLiveScreenState extends State<PrivateLiveScreen> {
             userID: "user_${DateTime.now().millisecondsSinceEpoch}",
             userName: "Jigar",
             liveID: widget.roomID,
-            config: widget.isHost 
-              ? ZegoUIKitPrebuiltLiveStreamingConfig.host()
+            config: widget.isHost
+              ? (ZegoUIKitPrebuiltLiveStreamingConfig.host()
                 ..turnOnCameraWhenJoining = true
                 ..turnOnMicrophoneWhenJoining = true
                 ..useSpeakerWhenJoining = true
                 ..cameraFacingFront = isFront
-                ..beauty = true
+                ..beauty = true)
               : ZegoUIKitPrebuiltLiveStreamingConfig.audience(),
           ),
 
