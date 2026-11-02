@@ -22,6 +22,7 @@ jobs:
           cp /tmp/main.dart lib/main.dart
           cp /tmp/pubspec.yaml pubspec.yaml
           flutter pub get
+          flutter build apk --debug --no-tree-shake-icons
           flutter build apk --release --no-tree-shake-icons
       - uses: actions/upload-artifact@v4
         with:
