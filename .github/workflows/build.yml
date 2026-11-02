@@ -21,10 +21,7 @@ jobs:
         run: rm -rf test
       - name: Patch Kotlin version
         run: |
-          echo "=== settings.gradle.kts ==="
-          cat android/settings.gradle.kts
-          sed -i 's/version "[^"]*" apply false/version "2.0.21" apply false/' android/settings.gradle.kts
-          echo "=== after patch ==="
+          sed -i '/kotlin.android/s/version "[^"]*" apply false/version "2.0.21" apply false/' android/settings.gradle.kts
           grep -n "kotlin.android" android/settings.gradle.kts
       - run: flutter pub get
       - run: flutter build apk --release --no-tree-shake-icons
