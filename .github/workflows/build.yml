@@ -22,13 +22,9 @@ jobs:
           cp /tmp/main.dart lib/main.dart
           cp /tmp/pubspec.yaml pubspec.yaml
           flutter pub get
-          flutter build apk --release --no-tree-shake-icons --verbose 2>&1 | tee build.log
+          flutter build apk --release --no-tree-shake-icons
+          ls -lh build/app/outputs/flutter-apk/
       - uses: actions/upload-artifact@v4
         with:
-          name: RASS-LIVE-LOGS
-          path: build.log
-      - uses: actions/upload-artifact@v4
-        if: success()
-        with:
-          name: RASS-LIVE-CAMERA-APK
+          name: RASS-LIVE-APK-FINAL
           path: build/app/outputs/flutter-apk/app-release.apk
