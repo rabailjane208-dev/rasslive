@@ -11,7 +11,7 @@ jobs:
           java-version: '17'
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.29.0'
+          flutter-version: '3.22.0'
           channel: 'stable'
       - name: Recreate android platform
         run: flutter create --org com.rasslive --platforms android .
@@ -19,10 +19,6 @@ jobs:
         run: cp AndroidManifest.xml android/app/src/main/AndroidManifest.xml
       - name: Remove test dir
         run: rm -rf test
-      - name: Patch Kotlin version
-        run: |
-          sed -i '/kotlin.android/s/version "[^"]*" apply false/version "2.0.21" apply false/' android/settings.gradle.kts
-          grep -n "kotlin.android" android/settings.gradle.kts
       - run: flutter pub get
       - run: flutter build apk --release --no-tree-shake-icons
       - name: Upload APK to gofile
