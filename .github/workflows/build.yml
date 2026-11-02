@@ -18,13 +18,17 @@ jobs:
           cp lib/main.dart /tmp/main.dart
           cp pubspec.yaml /tmp/pubspec.yaml
           rm -rf android
-          flutter create . --platforms=android --project-name rasslive --org com.rasslive.app
+          flutter create . --platforms=android --project-name rasslive --org com.rasslive
           cp /tmp/main.dart lib/main.dart
           cp /tmp/pubspec.yaml pubspec.yaml
           flutter pub get
-          flutter build apk --debug --no-tree-shake-icons
-          flutter build apk --release --no-tree-shake-icons
+          flutter build apk --release --no-tree-shake-icons --verbose 2>&1 | tee build.log
       - uses: actions/upload-artifact@v4
+        with:
+          name: RASS-LIVE-LOGS
+          path: build.log
+      - uses: actions/upload-artifact@v4
+        if: success()
         with:
           name: RASS-LIVE-CAMERA-APK
           path: build/app/outputs/flutter-apk/app-release.apk
