@@ -52,10 +52,6 @@ class _PrivateLiveScreenState extends State<PrivateLiveScreen> {
                 ..turnOnMicrophoneWhenJoining = true
                 ..useSpeakerWhenJoining = true
                 ..cameraFacingFront = isFront
-                ..videoConfig = ZegoVideoConfig()
-                    ..resolution = ZegoVideoResolutionPreset.hd720
-                    ..bitrate = 1500
-                    ..fps = 30
                 ..beauty = true
               : ZegoUIKitPrebuiltLiveStreamingConfig.audience(),
           ),
