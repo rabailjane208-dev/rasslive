@@ -3,7 +3,7 @@ description: Rass Live
 publish_to: 'none'
 version: 1.0.0+1
 environment:
-  sdk: ">=3.2.0 <4.0.0"
+  sdk: ">=3.5.0 <4.0.0"
 dependencies:
   flutter:
     sdk: flutter
@@ -11,7 +11,6 @@ dependencies:
   zego_uikit_prebuilt_live_streaming: ^3.15.0
   google_mlkit_face_detection: ^0.11.0
   camera: ^0.10.5+9
-dev_dependencies:
-  flutter_lints: ^4.0.0
+  permission_handler: any
 flutter:
   uses-material-design: true

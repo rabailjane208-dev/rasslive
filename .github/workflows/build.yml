@@ -11,7 +11,7 @@ jobs:
           java-version: '17'
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.29.0'
+          flutter-version: '3.24.0'
           channel: 'stable'
       - name: Recreate android platform
         run: flutter create --org com.rasslive --platforms android .
@@ -20,7 +20,6 @@ jobs:
       - name: Remove test dir
         run: rm -rf test
       - run: flutter pub get
-      - run: flutter analyze --no-pub
       - run: flutter build apk --release --no-tree-shake-icons
       - name: Upload APK to gofile
         run: |
