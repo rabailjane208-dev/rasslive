@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'screens/live_room_screen.dart';
+import 'private_live.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +38,7 @@ class _MainNavScreenState extends State<MainNavScreen> {
     super.initState();
     pages = [
       RassScoreScreen(userID: userID, userName: userName),
-      const PrivateRoomScreen(),
+      PrivateLiveScreen(roomID: 'private_${DateTime.now().millisecondsSinceEpoch}'),
       const FamilyRoomScreen(),
       const VideoScreen(),
       const MessengerScreen(),
@@ -94,23 +94,18 @@ class RassScoreScreen extends StatelessWidget {
         itemCount: rooms.length,
         itemBuilder: (context, i) {
           final r = rooms[i];
-          return GestureDetector(
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => LiveRoomScreen(roomID: r["roomID"] as String, userID: userID, userName: userName, isPK: r["isPK"] as bool))),
-            child: Container(
-              margin: const EdgeInsets.all(10),
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(color: const Color(0xFF1E1E1E), borderRadius: BorderRadius.circular(14)),
-              child: Row(children: [
-                CircleAvatar(backgroundColor: const Color(0xFFE91E63), radius: 28, child: Text("${i + 1}", style: const TextStyle(color: Colors.white))),
-                const SizedBox(width: 14),
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(r["title"] as String, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                  Text("Viewers: ${r["viewers"]}", style: const TextStyle(color: Colors.white54, fontSize: 12)),
-                ]),
-                const Spacer(),
-                const Icon(Icons.arrow_forward_ios, color: Colors.white54, size: 14),
+          return Container(
+            margin: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(color: const Color(0xFF1E1E1E), borderRadius: BorderRadius.circular(14)),
+            child: Row(children: [
+              CircleAvatar(backgroundColor: const Color(0xFFE91E63), radius: 28, child: Text("${i + 1}", style: const TextStyle(color: Colors.white))),
+              const SizedBox(width: 14),
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(r["title"] as String, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                Text("Viewers: ${r["viewers"]}", style: const TextStyle(color: Colors.white54, fontSize: 12)),
               ]),
-            ),
+            ]),
           );
         },
       ),
@@ -118,7 +113,6 @@ class RassScoreScreen extends StatelessWidget {
   }
 }
 
-class PrivateRoomScreen extends StatelessWidget { const PrivateRoomScreen({super.key}); @override Widget build(BuildContext context) => Scaffold(backgroundColor: Colors.black, appBar: AppBar(backgroundColor: Colors.black, title: const Text("Private Room", style: TextStyle(color: Colors.pink))), body: const Center(child: Text("Private Room", style: TextStyle(color: Colors.white)))); }
 class FamilyRoomScreen extends StatelessWidget { const FamilyRoomScreen({super.key}); @override Widget build(BuildContext context) => Scaffold(backgroundColor: Colors.black, appBar: AppBar(backgroundColor: Colors.black, title: const Text("Family Room", style: TextStyle(color: Colors.pink))), body: const Center(child: Text("Family Room", style: TextStyle(color: Colors.white)))); }
 class VideoScreen extends StatelessWidget { const VideoScreen({super.key}); @override Widget build(BuildContext context) => Scaffold(backgroundColor: Colors.black, appBar: AppBar(backgroundColor: Colors.black, title: const Text("Videos", style: TextStyle(color: Colors.pink))), body: const Center(child: Text("Videos", style: TextStyle(color: Colors.white)))); }
 class MessengerScreen extends StatelessWidget { const MessengerScreen({super.key}); @override Widget build(BuildContext context) => Scaffold(backgroundColor: Colors.black, appBar: AppBar(backgroundColor: Colors.black, title: const Text("Messenger", style: TextStyle(color: Colors.pink))), body: const Center(child: Text("Messenger", style: TextStyle(color: Colors.white)))); }

@@ -8,11 +8,9 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.6
-  zego_uikit_prebuilt_live_streaming: ^4.14.5
-  zego_uikit: ^2.13.0
-  zego_uikit_signaling_plugin: ^2.4.0
+  zego_uikit_prebuilt_live_streaming: ^3.15.0
   permission_handler: ^11.3.1
-  cached_network_image: ^3.3.1
+  google_mlkit_face_detection: ^0.11.0
   camera: ^0.10.5+9
 dev_dependencies:
   flutter_test:
