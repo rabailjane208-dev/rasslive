@@ -50,9 +50,7 @@ class _PrivateLiveScreenState extends State<PrivateLiveScreen> {
               ? (ZegoUIKitPrebuiltLiveStreamingConfig.host()
                 ..turnOnCameraWhenJoining = true
                 ..turnOnMicrophoneWhenJoining = true
-                ..useSpeakerWhenJoining = true
-                ..cameraFacingFront = isFront
-                ..beauty = true)
+                ..useSpeakerWhenJoining = true)
               : ZegoUIKitPrebuiltLiveStreamingConfig.audience(),
           ),
 
