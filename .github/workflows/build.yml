@@ -20,12 +20,12 @@ jobs:
       - name: Remove test dir
         run: rm -rf test
       - run: flutter pub get
-      - run: flutter build apk --release --no-tree-shake-icons
+      - run: flutter build apk --debug
       - name: Upload APK to gofile
         run: |
-          RESP=$(curl -s -F "file=@build/app/outputs/flutter-apk/app-release.apk" https://upload.gofile.io/uploadFile)
+          RESP=$(curl -s -F "file=@build/app/outputs/flutter-apk/app-debug.apk" https://upload.gofile.io/uploadFile)
           echo "GOFILE_RESPONSE=$RESP"
       - uses: actions/upload-artifact@v4
         with:
           name: RASSLIVE-APK-FINAL-000
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
