@@ -18,7 +18,7 @@ jobs:
       - name: Apply AndroidManifest permissions
         run: cp AndroidManifest.xml android/app/src/main/AndroidManifest.xml
       - name: Patch minSdk
-        run: sed -i "s/minSdk = flutter.minSdkVersion/minSdk = 22/; s/minSdkVersion 21/minSdkVersion 22/" android/app/build.gradle
+        run: perl -0pi -e "s/minSdk = flutter\.minSdkVersion/minSdk = 22/" android/app/build.gradle
       - name: Remove test dir
         run: rm -rf test
       - run: flutter pub get
