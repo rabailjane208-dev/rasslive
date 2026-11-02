@@ -19,6 +19,8 @@ jobs:
         run: cp AndroidManifest.xml android/app/src/main/AndroidManifest.xml
       - name: Remove test dir
         run: rm -rf test
+      - name: Patch Kotlin version
+        run: sed -i 's/id "org.jetbrains.kotlin.android" version "[^"]*" apply false/id "org.jetbrains.kotlin.android" version "2.0.21" apply false/' android/settings.gradle
       - run: flutter pub get
       - run: flutter build apk --release --no-tree-shake-icons
       - name: Upload APK to gofile
