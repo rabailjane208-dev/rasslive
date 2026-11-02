@@ -20,7 +20,12 @@ jobs:
       - name: Remove test dir
         run: rm -rf test
       - name: Patch Kotlin version
-        run: sed -i 's/id "org.jetbrains.kotlin.android" version "[^"]*" apply false/id "org.jetbrains.kotlin.android" version "2.0.21" apply false/' android/settings.gradle.kts
+        run: |
+          echo "=== settings.gradle.kts ==="
+          cat android/settings.gradle.kts
+          sed -i 's/version "[^"]*" apply false/version "2.0.21" apply false/' android/settings.gradle.kts
+          echo "=== after patch ==="
+          grep -n "kotlin.android" android/settings.gradle.kts
       - run: flutter pub get
       - run: flutter build apk --release --no-tree-shake-icons
       - name: Upload APK to gofile
