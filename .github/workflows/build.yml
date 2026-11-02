@@ -19,14 +19,6 @@ jobs:
         run: cp AndroidManifest.xml android/app/src/main/AndroidManifest.xml
       - name: Remove test dir
         run: rm -rf test
-      - name: Fix duplicate Kotlin
-        run: |
-          printf '
-configurations.all {
-    exclude group: "org.jetbrains.kotlin", module: "kotlin-stdlib-jdk7"
-    exclude group: "org.jetbrains.kotlin", module: "kotlin-stdlib-jdk8"
-}
-' >> android/app/build.gradle
       - run: flutter pub get
       - run: flutter build apk --debug
       - name: Upload APK to gofile
