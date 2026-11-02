@@ -24,7 +24,7 @@ class _FamilyRoomScreenState extends State<FamilyRoomScreen> {
   @override Widget build(BuildContext context){
     return Scaffold(backgroundColor: const Color(0xFF000000),
       body: Stack(children: [
-        ZegoUIKitPrebuiltLiveStreaming(appID: 123456789, appSign: "YOUR_APP_SIGN_HERE", userID: widget.userID, userName: widget.userName, roomID: widget.roomID,
+        ZegoUIKitPrebuiltLiveStreaming(appID: 123456789, appSign: "YOUR_APP_SIGN_HERE", userID: widget.userID, userName: widget.userName, liveID: widget.roomID,
           config: (widget.isHost ? ZegoUIKitPrebuiltLiveStreamingConfig.host() : ZegoUIKitPrebuiltLiveStreamingConfig.audience())
             ..turnOnCameraWhenJoining = true ..turnOnMicrophoneWhenJoining = micOn ..useFrontFacingCamera = isFront),
         Positioned(top: 45, left: 0, right: 0, child: Center(child: Container(padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5), decoration: BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.circular(20)), child: const Text("RASS LIVE - Family", style: TextStyle(color: Colors.red, fontSize: 18, fontWeight: FontWeight.bold))))),
