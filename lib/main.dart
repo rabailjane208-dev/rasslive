@@ -47,9 +47,9 @@ class _TabsState extends State<Tabs> {
       ]))),
     );
   }
-  Widget navItem(int i, IconData ic, String label){
-    bool sel = _index==i;
-    return InkWell(onTap: ()=> setState(()=> _index=i), child: Container(padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6), child: Column(children: [
+  Widget navItem(int idx, IconData ic, String label){
+    bool sel = i==idx;
+    return InkWell(onTap: ()=> setState(()=> i=idx), child: Container(padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6), child: Column(children: [
       Icon(ic, color: sel? Colors.pinkAccent: Colors.white54), Text(label, style: TextStyle(fontSize: 10, color: sel? Colors.pinkAccent: Colors.white54))
     ])));
   }
@@ -181,7 +181,7 @@ class _MessengerPageState extends State<MessengerPage> {
         Expanded(child: ListView(children: msgs.map((m)=> Align(alignment: m.startsWith("You")? Alignment.centerRight: Alignment.centerLeft, child: Container(margin: EdgeInsets.all(6), padding: EdgeInsets.all(10), decoration: BoxDecoration(color: m.startsWith("You")? Colors.pink: Colors.white12, borderRadius: BorderRadius.circular(12)), child: Text(m.startsWith("VOICE")? "🎤 Voice Message": m)))).toList())),
         Row(children: [
           IconButton(icon: Icon(isRec? Icons.stop: Icons.mic, color: Colors.green), onPressed: () async {
-            if(isRec){ var p=await _rec.stopRecorder(); setState(()=> {msgs.add("You: VOICE:$p"), isRec=false}); } else { if(await Permission.microphone.request().isGranted){ await _rec.startRecorder(toFile: 'voice.m4a'); setState(()=> isRec=true); } }
+            if(isRec){ var p=await _rec.stop(); setState(()=> {msgs.add("You: VOICE:$p"), isRec=false}); } else { if(await Permission.microphone.request().isGranted){ await _rec.start(const RecordConfig(), path: 'voice.m4a'); setState(()=> isRec=true); } }
           }),
           IconButton(icon: Icon(Icons.card_giftcard, color: Colors.yellow), onPressed: (){}),
           Expanded(child: Text(isRec? "Recording...": "Hold Mic for Voice")),
