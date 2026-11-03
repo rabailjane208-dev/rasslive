@@ -7,26 +7,22 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
+          distribution: 'zulu'
           java-version: '17'
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.22.0'
           channel: 'stable'
+          flutter-version: '3.22.3'
       - name: Recreate android platform
-        run: flutter create --org com.rasslive --platforms android .
+        run: flutter create . --org com.rasslive --project-name rasslive_world --platforms=android
+      - name: Patch SDK 36
+        run: |
+          sed -i 's/compileSdk 33/compileSdk 36/g; s/compileSdkVersion 33/compileSdkVersion 36/g; s/targetSdk 33/targetSdk 36/g; s/compileSdk 34/compileSdk 36/g; s/compileSdk 35/compileSdk 36/g' android/app/build.gradle
+          grep -n compileSdk android/app/build.gradle
       - name: Apply AndroidManifest permissions
         run: cp AndroidManifest.xml android/app/src/main/AndroidManifest.xml
-      - name: Patch compileSdk and minSdk
-        run: |
-          sed -i 's/compileSdk = flutter.compileSdkVersion/compileSdk = 36/' android/app/build.gradle
-          sed -i 's/minSdk = flutter.minSdkVersion/minSdk = 21/' android/app/build.gradle
-          sed -i 's/targetSdk = flutter.targetSdkVersion/targetSdk = 36/' android/app/build.gradle
-          grep -E "compileSdk|minSdk|targetSdk" android/app/build.gradle
       - name: Remove test dir
         run: rm -rf test
-      - name: Patch Kotlin version
-        run: sed -i '/kotlin.android/s/version "[^"]*" apply false/version "2.0.21" apply false/' android/settings.gradle
       - run: flutter pub get
       - run: flutter build apk --release --no-tree-shake-icons
       - name: Upload APK to gofile
