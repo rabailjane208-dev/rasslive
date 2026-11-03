@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
+import 'zego_config.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'dart:async';
 
@@ -54,7 +56,7 @@ class _RassLiveScorePageState extends State<RassLiveScorePage> {
     if (r['type'] == "PK") Navigator.push(context, MaterialPageRoute(builder: (_) => const RassPKPage()));
     else if (r['type'] == "Multi") Navigator.push(context, MaterialPageRoute(builder: (_) => NineStarsPage(roomName: r['name'])));
     else if (r['type'] == "Voice") Navigator.push(context, MaterialPageRoute(builder: (_) => const VoiceLivePage()));
-    else Navigator.push(context, MaterialPageRoute(builder: (_) => LiveRoom(roomName: "${r['name']} ${r['emoji']}")));
+    else Navigator.push(context, MaterialPageRoute(builder: (_) => ZegoLivePageReal(roomName: "${r['name']} ${r['emoji']}")));
   }
   @override Widget build(BuildContext context) {
     List all = [...roomsFromImage, ...allExtraRooms];
@@ -110,3 +112,24 @@ class ProfilePage extends StatelessWidget { const ProfilePage({super.key}); @ove
 class VoiceLivePage extends StatelessWidget { const VoiceLivePage({super.key}); @override Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Voice Live', style: TextStyle(color: Colors.white)))); }
 class NineStarsPage extends StatelessWidget { final String roomName; const NineStarsPage({super.key, required this.roomName}); @override Widget build(BuildContext context) => Scaffold(body: Center(child: Text(roomName, style: const TextStyle(color: Colors.white)))); }
 class RassPKPage extends StatelessWidget { const RassPKPage({super.key}); @override Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('PK Arena', style: TextStyle(color: Colors.white)))); }
+class ZegoLivePageReal extends StatelessWidget {
+  final String roomName;
+  const ZegoLivePageReal({super.key, required this.roomName});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(backgroundColor: Colors.black, title: Text('$roomName - Rass Live Only', style: const TextStyle(fontSize: 12)), leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => Navigator.pop(context))),
+      body: ZegoUIKitPrebuiltLiveStreaming(
+        appID: ZegoConfig.appId,
+        appSign: ZegoConfig.appSign,
+        userID: 'user_${DateTime.now().millisecondsSinceEpoch}',
+        userName: 'Rass Jigar',
+        liveID: roomName,
+        config: ZegoUIKitPrebuiltLiveStreamingConfig.host()
+          ..turnOnCameraWhenJoining = true
+          ..turnOnMicrophoneWhenJoining = true
+          ..useSpeakerWhenJoining = true,
+      ),
+    );
+  }
+}
