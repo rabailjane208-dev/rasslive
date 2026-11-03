@@ -13,7 +13,7 @@ class RassLiveApp extends StatelessWidget {
   const RassLiveApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: Colors.black), home: const MainNav());
+    return MaterialApp(debugShowCheckedModeBanner: false, theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: Colors.black), home: MainNav());
   }
 }
 
@@ -25,13 +25,13 @@ class _MainNavState extends State<MainNav> {
   Widget build(BuildContext context) {
     final pages = [
       RassLivePage(),
-      const PrivateRoomPage(),
-      const FamilyRoomPage(),
-      const VideoPage(),
-      const MessengerPage(),
-      const GamesPage(),
-      const WalletPage(),
-      const ProfilePage(),
+      PrivateRoomPage(),
+      FamilyRoomPage(),
+      VideoPage(),
+      MessengerPage(),
+      GamesPage(),
+      WalletPage(),
+      ProfilePage(),
     ];
     return Scaffold(
       body: pages[_index],
