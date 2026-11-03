@@ -24,14 +24,14 @@ class _MainNavState extends State<MainNav> {
   @override
   Widget build(BuildContext context) {
     final pages = [
-      RassLivePage(onGift: (c){ setState(()=> coins-=c); }, coins: coins),
-      PrivateRoomPage(coins: coins, onUse: (c){ setState(()=> coins-=c); }),
-      FamilyRoomPage(),
-      VideoPage(onFollow: (){ setState(()=> diamonds+=10); }),
-      MessengerPage(coins: coins),
-      GamesPage(coins: coins),
-      WalletPage(coins: coins),
-      ProfilePage(diamonds: diamonds),
+      RassLivePage(),
+      const PrivateRoomPage(),
+      const FamilyRoomPage(),
+      const VideoPage(),
+      const MessengerPage(),
+      const GamesPage(),
+      const WalletPage(),
+      const ProfilePage(),
     ];
     return Scaffold(
       body: pages[_index],
@@ -57,8 +57,9 @@ class _MainNavState extends State<MainNav> {
   }
 }
 
+void _noop(int c) {} 
 class RassLivePage extends StatelessWidget {
-  final Function(int) onGift; final int coins; RassLivePage({required this.onGift, required this.coins});
+  final Function(int) onGift; final int coins; RassLivePage({this.onGift = _noop, this.coins = 5000});
   final rooms = [
     {'name': 'Rass World 🌍', 'v': '1257', 's': '100'},
     {'name': 'Queen Live 👑', 'v': '892', 's': '85'},
