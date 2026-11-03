@@ -86,7 +86,7 @@ class _LiveRoomState extends State<LiveRoom> {
   @override void initState() { super.initState(); _startCamera(); }
   Future<void> _startCamera() async { try { allCams = await availableCameras(); if (allCams.isEmpty) return; CameraDescription selected = isFront ? allCams.firstWhere((c) => c.lensDirection == CameraLensDirection.front, orElse: () => allCams.first) : allCams.firstWhere((c) => c.lensDirection == CameraLensDirection.back, orElse: () => allCams.first); await ctrl?.dispose(); ctrl = CameraController(selected, ResolutionPreset.high, enableAudio: true); await ctrl!.initialize(); if (mounted) setState(() {}); } catch (e) {} }
   Future<void> _switchCamera() async { setState(() => isFront = !isFront); await _startCamera(); }
-  void _sendGift() async { try { await audioPlayer.play(AssetSource('sounds/gift.mp3')); } catch (_) {} ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Gift bheja - Coins 🔊💳 Wallet Connect - Rass Live Only'))); }
+  void _sendGift() async { try { await audioPlayer.play(AssetSource('sounds/gift.mp3')); } catch (_) {} ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Gift bheja - Coins Wallet Connect - Rass Live Only'))); }
   @override void dispose() { ctrl?.dispose(); audioPlayer.dispose(); super.dispose(); }
   @override Widget build(BuildContext context) {
     return Scaffold(appBar: AppBar(backgroundColor: Colors.black, title: Text('${widget.roomName} - Rass Live Only', style: const TextStyle(fontSize: 10)), leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => Navigator.pop(context))), body: Stack(children: [
