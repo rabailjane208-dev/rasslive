@@ -29,7 +29,7 @@ class _TabsState extends State<Tabs> {
     final pages = [
       RassLivePage(onGift: (c){ setState(()=> coins-=c); }, coins: coins),
       PrivateRoomPage(coins: coins, onUse: (c){ setState(()=> coins-=c); }),
-      FamilyFullPage(),
+      FamilyRoomPage(),
       VideoFullPage(onFollow: (){ setState(()=> diamonds+=10); }),
       MessengerFullPage(coins: coins),
       GamesFullPage(coins: coins),
@@ -44,7 +44,7 @@ class _TabsState extends State<Tabs> {
       ]))),
     );
   }
-  Widget nav(int idx, IconData ic, String l){ bool s=i==idx; return InkWell(onTap: ()=> setState(()=> i=idx), child: Container(padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6), child: Column(children: [Icon(ic, color: s? Colors.pinkAccent: Colors.white54), Text(l, style: TextStyle(fontSize: 10, color: s? Colors.pinkAccent: Colors.white54))]))) ; }
+  Widget nav(int idx, IconData ic, String l){ bool s=i==idx; return InkWell(onTap: ()=> setState(()=> i=idx), child: Container(padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6), child: Column(children: [Icon(ic, color: s? Colors.pinkAccent: Colors.white54), Text(l, style: TextStyle(fontSize: 10, color: s? Colors.pinkAccent: Colors.white54))]))); }
 }
 
 class RassLivePage extends StatelessWidget {
