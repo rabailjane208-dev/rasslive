@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'private_live.dart';
-import 'family_room.dart';
+// removed
+// removed
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,8 +39,8 @@ class _MainNavScreenState extends State<MainNavScreen> {
     super.initState();
     pages = [
       RassScoreScreen(userID: userID, userName: userName),
-      PrivateLiveScreen(roomID: 'private_${DateTime.now().millisecondsSinceEpoch}'),
-      FamilyRoomScreen(roomID: "family_1", userID: userID, userName: userName),
+      Container(color: Colors.black, child: const Center(child: Text("Private", style: TextStyle(color: Colors.white)))),
+      Container(color: Colors.black, child: const Center(child: Text("Family", style: TextStyle(color: Colors.white)))),
       const VideoScreen(),
       const MessengerScreen(),
       const GameScreen(),
