@@ -5,11 +5,11 @@ import 'package:camera/camera.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 const A = 1238213223;
-List<CameraDescription> C = [];
+List<CameraDescription> allCameras = [];
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await [Permission.camera, Permission.microphone].request();
-  try { C = await availableCameras(); } catch (_) {}
+  try { allCameras = await availableCameras(); } catch (_) {}
   runApp(const App());
 }
 
@@ -63,13 +63,13 @@ class _LiveFullDetailState extends State<LiveFullDetail> {
   @override void initState(){ super.initState(); initCam(); }
   initCam() async {
     await [Permission.camera, Permission.microphone].request();
-    var front = C.where((c)=> c.lensDirection==CameraLensDirection.front).toList();
-    var cam = front.isNotEmpty? front.first: C.first;
+    var front = allCameras.where((c)=> c.lensDirection==CameraLensDirection.front).toList();
+    var cam = front.isNotEmpty? front.first: allCameras.first;
     ctrl = CameraController(cam, ResolutionPreset.high, enableAudio: true); await ctrl!.initialize(); setState(()=> camInit=true);
   }
   switchCam() async {
     var isFront = ctrl!.description.lensDirection==CameraLensDirection.front;
-    var newList = C.where((c)=> c.lensDirection== (isFront? CameraLensDirection.back: CameraLensDirection.front)).toList();
+    var newList = allCameras.where((c)=> c.lensDirection== (isFront? CameraLensDirection.back: CameraLensDirection.front)).toList();
     if(newList.isEmpty) return;
     ctrl = CameraController(newList.first, ResolutionPreset.high, enableAudio: true); await ctrl!.initialize(); setState((){});
   }
