@@ -9,8 +9,5 @@ dependencies:
   camera: ^0.10.5+9
   permission_handler: ^11.3.1
   audioplayers: ^5.0.0
-  zego_uikit_prebuilt_live_streaming: ^3.12.4
-  zego_uikit_signaling_plugin: ^2.5.4
-  zego_uikit: ^2.13.0
 flutter:
   uses-material-design: true
