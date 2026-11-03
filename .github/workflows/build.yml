@@ -27,5 +27,5 @@ jobs:
           echo "GOFILE_RESPONSE=$RESP"
       - uses: actions/upload-artifact@v4
         with:
-          name: RASSLIVE-APK-FINAL-000
+          name: RASS-LIVE-FINAL-APK
           path: build/app/outputs/flutter-apk/app-release.apk
