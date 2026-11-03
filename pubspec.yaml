@@ -8,5 +8,6 @@ dependencies:
     sdk: flutter
   camera: ^0.10.5+9
   permission_handler: ^11.3.1
+  audioplayers: ^5.0.0
 flutter:
   uses-material-design: true
