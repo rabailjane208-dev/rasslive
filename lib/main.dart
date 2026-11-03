@@ -4,15 +4,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'dart:async';
 
-class ZegoConfig {
-  static const int appID = 1238213223;
-  static const String appSign = "3cfba1ba4c90747bdd4e393935381fa216178c528dc70e558fa70fafde0fce9f";
-  static const String packageName = "com.rasslive.world";
-  static const String appName = "Rass Live Only";
-  static const String hostID = "rass_jigar";
-  static const String hostName = "Rass Jigar";
-}
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await [Permission.camera, Permission.microphone].request();
@@ -84,7 +75,7 @@ class _RassLiveScorePageState extends State<RassLiveScorePage> {
           Container(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6), decoration: BoxDecoration(color: const Color(0xFFE53935), borderRadius: BorderRadius.circular(12)), child: const Text('LIVE', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold))),
         ])));
       })),
-      Container(padding: const EdgeInsets.all(8), color: const Color(0xFF121212), child: const Row(children: [Icon(Icons.verified, size: 12, color: Colors.green), Text(' AppID: 1238213223 com.rasslive.world Verified - Rass Live Only - Merged Code A+B', style: TextStyle(color: Colors.white54, fontSize: 6))])),
+      Container(padding: const EdgeInsets.all(8), color: const Color(0xFF121212), child: const Row(children: [Icon(Icons.verified, size: 12, color: Colors.green), Text(' AppID: com.rasslive.world Verified - Rass Live Only - Merged Code A+B', style: TextStyle(color: Colors.white54, fontSize: 6))])),
     ]));
   }
 }
