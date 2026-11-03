@@ -1,149 +1,158 @@
-import 'dart:async';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-const A = 1238213223;
-List<CameraDescription> C = [];
-
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  try {
-    await [Permission.camera, Permission.microphone].request();
-    C = await availableCameras();
-  } catch (_) {}
-  runApp(const App());
+  await Permission.camera.request();
+  await Permission.microphone.request();
+  runApp(const RassLiveApp());
 }
 
-class App extends StatelessWidget {
-  const App({super.key});
-  @override
-  Widget build(BuildContext context) => MaterialApp(debugShowCheckedModeBanner: false, theme: ThemeData.dark(), home: const Tabs());
-}
-
-class Tabs extends StatefulWidget {
-  const Tabs({super.key});
-  @override
-  State<Tabs> createState() => _TabsState();
-}
-
-class _TabsState extends State<Tabs> {
-  int i = 0;
-  final pages = [const R(), const P1(), const P2(), const P3(), const P4(), const P5(), const P6(), const P7()];
-  @override
-  Widget build(BuildContext context) => Scaffold(
-    body: pages[i.clamp(0, 7)],
-    bottomNavigationBar: Container(
-      color: Colors.black,
-      height: 70,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(children: List.generate(8, (idx) {
-          var icons = [Icons.live_tv, Icons.lock, Icons.group, Icons.video_library, Icons.message, Icons.extension, Icons.wallet, Icons.person];
-          var labels = ["RassLive", "Private", "Family", "Video", "Mess.", "Games", "Wallet", "Profile"];
-          bool sel = i == idx;
-          return InkWell(
-            onTap: () => setState(() => i = idx),
-            child: Container(padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8), child: Column(mainAxisSize: MainAxisSize.min, children: [
-              Icon(icons[idx], color: sel ? Colors.pink : Colors.white54),
-              Text(labels[idx], style: TextStyle(fontSize: 10, color: sel ? Colors.pink : Colors.white54)),
-            ])),
-          );
-        })),
-      ),
-    ),
-  );
-}
-
-class R extends StatelessWidget {
-  const R({super.key});
+class RassLiveApp extends StatelessWidget {
+  const RassLiveApp({super.key});
   @override
   Widget build(BuildContext context) {
-    final list = [{"n": "Rass World 🌍", "t": "solo"}, {"n": "Queen Live 👑", "t": "queen"}, {"n": "Rass PK Arena ⚔️", "t": "pk"}, {"n": "9 Stars Multi ⭐", "t": "multi"}, {"n": "Voice Live 🎙️", "t": "voice"}];
-    return Scaffold(backgroundColor: Colors.black, appBar: AppBar(backgroundColor: Colors.black, title: const Text("RASS LIVE - Score", style: TextStyle(color: Colors.red, fontSize: 14))), body: ListView.builder(itemCount: list.length, itemBuilder: (c, y) {
-      var r = list[y];
-      return ListTile(
-        leading: CircleAvatar(backgroundColor: Colors.pink, child: Text("${y + 1}")),
-        title: Text(r["n"] as String, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
-        subtitle: Text("Viewers: ${[1257, 892, 543, 321, 210][y]} | Score: ${[100, 85, 70, 60, 50][y]}"),
-        trailing: Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2), decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(10)), child: const Text("LIVE", style: TextStyle(fontSize: 8))),
-        onTap: () => Navigator.push(c, MaterialPageRoute(builder: (_) => D(room: r))),
-      );
-    }));
+    return MaterialApp(debugShowCheckedModeBanner: false, theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: Colors.black), home: const MainNav());
   }
 }
 
-class D extends StatefulWidget {
-  final Map room;
-  const D({super.key, required this.room});
+class MainNav extends StatefulWidget { @override _MainNavState createState() => _MainNavState(); }
+class _MainNavState extends State<MainNav> {
+  int _index = 0;
+  int coins = 5000; int diamonds = 1250;
   @override
-  State<D> createState() => _DState();
+  Widget build(BuildContext context) {
+    final pages = [
+      RassLivePage(onGift: (c){ setState(()=> coins-=c); }, coins: coins),
+      PrivateRoomPage(coins: coins, onUse: (c){ setState(()=> coins-=c); }),
+      FamilyRoomPage(),
+      VideoPage(onFollow: (){ setState(()=> diamonds+=10); }),
+      MessengerPage(coins: coins),
+      GamesPage(coins: coins),
+      WalletPage(coins: coins),
+      ProfilePage(diamonds: diamonds),
+    ];
+    return Scaffold(
+      body: pages[_index],
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.black,
+        selectedItemColor: Colors.pink,
+        unselectedItemColor: Colors.white54,
+        currentIndex: _index,
+        onTap: (i) => setState(() => _index = i),
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.live_tv), label: 'RassLive'),
+          BottomNavigationBarItem(icon: Icon(Icons.lock), label: 'Private'),
+          BottomNavigationBarItem(icon: Icon(Icons.family_restroom), label: 'Family'),
+          BottomNavigationBarItem(icon: Icon(Icons.video_library), label: 'Video'),
+          BottomNavigationBarItem(icon: Icon(Icons.message), label: 'Messen.'),
+          BottomNavigationBarItem(icon: Icon(Icons.games), label: 'Games'),
+          BottomNavigationBarItem(icon: Icon(Icons.wallet), label: 'Wallet'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+        ],
+      ),
+    );
+  }
 }
 
-class _DState extends State<D> {
-  CameraController? cam;
-  bool ok = false;
-  bool front = true;
+class RassLivePage extends StatelessWidget {
+  final Function(int) onGift; final int coins; RassLivePage({required this.onGift, required this.coins});
+  final rooms = [
+    {'name': 'Rass World 🌍', 'v': '1257', 's': '100'},
+    {'name': 'Queen Live 👑', 'v': '892', 's': '85'},
+    {'name': 'Rass PK Arena X', 'v': '543', 's': '70'},
+    {'name': '9 Stars Multi ⭐', 'v': '321', 's': '60'},
+    {'name': 'Voice Live 🔒', 'v': '210', 's': '50'},
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(child: Column(children: [
+      Padding(padding: EdgeInsets.all(10), child: Align(alignment: Alignment.centerLeft, child: Text('RASS LIVE - Score', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)))),
+      Expanded(child: ListView.builder(itemCount: rooms.length, itemBuilder: (c, i) {
+        final r = rooms[i];
+        return Card(color: Colors.white10, child: ListTile(
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => LiveRoom(roomName: r['name']!))),
+          leading: CircleAvatar(backgroundColor: Colors.pink, child: Text('${i+1}')),
+          title: Text(r['name']!, style: TextStyle(color: Colors.white)),
+          subtitle: Text('Viewers: ${r['v']} | Score: ${r['s']} | TAP TO LIVE', style: TextStyle(color: Colors.white70, fontSize: 11)),
+          trailing: Container(padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4), decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(4)), child: Text('Live', style: TextStyle(fontSize: 10))),
+        ));
+      }))
+    ]));
+  }
+}
+
+class LiveRoom extends StatefulWidget {
+  final String roomName;
+  const LiveRoom({super.key, required this.roomName});
+  @override
+  State<LiveRoom> createState() => _LiveRoomState();
+}
+
+class _LiveRoomState extends State<LiveRoom> {
+  CameraController? ctrl;
+  List<CameraDescription> allCams = [];
+  bool isFront = true;
+  int coins = 5000;
 
   @override
-  void initState() {
-    super.initState();
-    _initCam();
-  }
+  void initState() { super.initState(); _startCamera(); }
 
-  Future<void> _initCam() async {
-    try {
-      if (C.isEmpty) {
-        C = await availableCameras();
-      }
-      if (C.isNotEmpty) {
-        cam = CameraController(C[0], ResolutionPreset.high, enableAudio: true);
-        await cam!.initialize();
-        if (mounted) setState(() => ok = true);
-      }
-    } catch (e) {
-      debugPrint("cam: $e");
+  Future<void> _startCamera() async {
+    allCams = await availableCameras();
+    if (allCams.isEmpty) return;
+    final frontCams = allCams.where((c) => c.lensDirection == CameraLensDirection.front).toList();
+    final backCams = allCams.where((c) => c.lensDirection == CameraLensDirection.back).toList();
+    CameraDescription selectedCam;
+    if (isFront && frontCams.isNotEmpty) {
+      selectedCam = frontCams[0];
+    } else if (!isFront && backCams.isNotEmpty) {
+      selectedCam = backCams[0];
+    } else {
+      selectedCam = allCams[0];
     }
+    ctrl = CameraController(selectedCam, ResolutionPreset.high);
+    await ctrl!.initialize();
+    if (mounted) setState(() {});
+  }
+
+  Future<void> _switchCamera() async {
+    isFront = !isFront;
+    await _startCamera();
   }
 
   @override
-  void dispose() {
-    cam?.dispose();
-    super.dispose();
-  }
+  void dispose() { ctrl?.dispose(); super.dispose(); }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
+      appBar: AppBar(backgroundColor: Colors.black, title: Text(widget.roomName, style: TextStyle(fontSize: 14)), leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () => Navigator.pop(context))),
       body: Stack(children: [
-        Positioned.fill(child: ok && cam != null && cam!.value.isInitialized ? CameraPreview(cam!) : const Center(child: CircularProgressIndicator(color: Colors.pink))),
-        Positioned(top: 40, left: 10, right: 10, child: Row(children: [
-          IconButton(icon: const Icon(Icons.arrow_back, color: Colors.white), onPressed: () => Navigator.pop(context)),
-          Text(widget.room["n"] as String, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-          const Spacer(),
-          IconButton(icon: const Icon(Icons.cameraswitch, color: Colors.white), onPressed: () => setState(() => front = !front)),
-        ])),
-        Positioned(bottom: 10, left: 10, right: 10, child: Container(
-          constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.6),
-          child: Column(children: [
-            Expanded(child: GridView.count(crossAxisCount: 4, children: List.generate(8, (i) => Container(margin: const EdgeInsets.all(4), decoration: BoxDecoration(color: Colors.white10, borderRadius: BorderRadius.circular(8)), child: Center(child: Text("Gift ${i + 1}", style: const TextStyle(color: Colors.white, fontSize: 10))))))),
-            Row(children: [
-              Expanded(child: TextField(style: const TextStyle(color: Colors.white), decoration: const InputDecoration(hintText: "Comment...", hintStyle: TextStyle(color: Colors.white54), border: InputBorder.none))),
-              ElevatedButton(onPressed: () {}, child: const Text("Send")),
-            ]),
-          ]),
-        )),
+        if (ctrl != null && ctrl!.value.isInitialized)
+          SizedBox.expand(child: FittedBox(fit: BoxFit.cover, child: SizedBox(width: ctrl!.value.previewSize!.height, height: ctrl!.value.previewSize!.width, child: CameraPreview(ctrl!))))
+        else Container(color: Colors.black, child: Center(child: CircularProgressIndicator(color: Colors.pink))),
+        Positioned(top: 10, left: 10, right: 10, child: Wrap(spacing: 6, runSpacing: 6, children: List.generate(8, (i) => GestureDetector(
+          onTap: () { setState(() => coins += 10); ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Gift ${i+1} bheja - Coins +10 - Wallet Me Gaya'))); },
+          child: Container(padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5), decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(6)), child: Text('Gift ${i+1}', style: TextStyle(color: Colors.white, fontSize: 11))),
+        )))),
+        Positioned(bottom: 0, left: 0, right: 0, child: Container(color: Colors.black54, padding: EdgeInsets.all(8), child: Row(children: [
+          Expanded(child: TextField(style: TextStyle(color: Colors.white), decoration: InputDecoration(hintText: 'Comment...', hintStyle: TextStyle(color: Colors.white54), border: InputBorder.none))),
+          IconButton(icon: Icon(isFront ? Icons.camera_rear : Icons.camera_front, color: Colors.white), onPressed: _switchCamera),
+          ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.pink), onPressed: () {}, child: Text('Send'))
+        ]))),
       ]),
     );
   }
 }
 
-class P1 extends StatelessWidget { const P1({super.key}); @override Widget build(BuildContext context) => Scaffold(backgroundColor: Colors.black, appBar: AppBar(backgroundColor: Colors.black, title: const Text("Private", style: TextStyle(color: Colors.pink))), body: const Center(child: Text("Private", style: TextStyle(color: Colors.white)))); }
-class P2 extends StatelessWidget { const P2({super.key}); @override Widget build(BuildContext context) => Scaffold(backgroundColor: Colors.black, appBar: AppBar(backgroundColor: Colors.black, title: const Text("Family", style: TextStyle(color: Colors.pink))), body: const Center(child: Text("Family", style: TextStyle(color: Colors.white)))); }
-class P3 extends StatelessWidget { const P3({super.key}); @override Widget build(BuildContext context) => Scaffold(backgroundColor: Colors.black, appBar: AppBar(backgroundColor: Colors.black, title: const Text("Video", style: TextStyle(color: Colors.pink))), body: const Center(child: Text("Video", style: TextStyle(color: Colors.white)))); }
-class P4 extends StatelessWidget { const P4({super.key}); @override Widget build(BuildContext context) => Scaffold(backgroundColor: Colors.black, appBar: AppBar(backgroundColor: Colors.black, title: const Text("Messenger", style: TextStyle(color: Colors.pink))), body: const Center(child: Text("Messenger", style: TextStyle(color: Colors.white)))); }
-class P5 extends StatelessWidget { const P5({super.key}); @override Widget build(BuildContext context) => Scaffold(backgroundColor: Colors.black, appBar: AppBar(backgroundColor: Colors.black, title: const Text("Games", style: TextStyle(color: Colors.pink))), body: const Center(child: Text("Games", style: TextStyle(color: Colors.white)))); }
-class P6 extends StatelessWidget { const P6({super.key}); @override Widget build(BuildContext context) => Scaffold(backgroundColor: Colors.black, appBar: AppBar(backgroundColor: Colors.black, title: const Text("Wallet", style: TextStyle(color: Colors.pink))), body: const Center(child: Text("Wallet", style: TextStyle(color: Colors.white)))); }
-class P7 extends StatelessWidget { const P7({super.key}); @override Widget build(BuildContext context) => Scaffold(backgroundColor: Colors.black, appBar: AppBar(backgroundColor: Colors.black, title: const Text("Profile", style: TextStyle(color: Colors.pink))), body: const Center(child: Text("Profile", style: TextStyle(color: Colors.white)))); }
+class PrivateRoomPage extends StatelessWidget { @override Widget build(BuildContext context){ return SafeArea(child: Center(child: Text('Private 1v1\nHost + Request Ali Khan Approve/Reject\n5000 Coins Gift Shop Andar Hai + Go LIVE se Front Camera ON', textAlign: TextAlign.center, style: TextStyle(color: Colors.white70)))); } }
+class FamilyRoomPage extends StatelessWidget { @override Widget build(BuildContext context){ return SafeArea(child: Column(children: [Padding(padding: EdgeInsets.all(10), child: Text('Family Room 6 Log - 2 Video + 4 Voice + Request Approve', style: TextStyle(color: Colors.white))), Expanded(child: GridView.count(crossAxisCount: 2, children: List.generate(6, (i)=> Container(margin: EdgeInsets.all(8), color: Colors.white10, child: Center(child: Text(i==0 ? 'You (Host) Full Camera' : 'Empty + Invite + Join Guest Approve', style: TextStyle(color: Colors.white, fontSize: 12)))))))])); } }
+class VideoPage extends StatelessWidget { @override Widget build(BuildContext context){ return SafeArea(child: ListView(children: [ListTile(leading: Icon(Icons.play_circle, color: Colors.white), title: Text('My Videos 12 Shared Likes 287 Comments 1.2K Views 38K', style: TextStyle(color: Colors.white)), subtitle: Text('❤️ 12500 + Edit Caption: Naya caption likho + Follow/Unfollow', style: TextStyle(color: Colors.white54)))])); } }
+class MessengerPage extends StatelessWidget { @override Widget build(BuildContext context){ return SafeArea(child: ListView(children: [ListTile(leading: Icon(Icons.mic, color: Colors.white), title: Text('Voice + Gift Button + Wallet + WhatsApp jaisa', style: TextStyle(color: Colors.white70)))])); } }
+class GamesPage extends StatelessWidget { @override Widget build(BuildContext context){ return SafeArea(child: GridView.count(crossAxisCount: 3, children: List.generate(9, (i)=> Card(color: Colors.white10, child: Center(child: Text('Game ${i+1}\nEntry 50 Win 90\nGift Marzi\nWinner 90% Wallet', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 10))))))); } }
+class WalletPage extends StatelessWidget { @override Widget build(BuildContext context){ return SafeArea(child: Center(child: Container(margin: EdgeInsets.all(16), padding: EdgeInsets.all(20), decoration: BoxDecoration(color: Colors.orange, borderRadius: BorderRadius.circular(12)), child: Column(children: [Text('5000 Coins \$39.60', style: TextStyle(fontSize: 22, color: Colors.white)), SizedBox(height: 10), Text('1250 Diamonds | Gift Sidha Wallet Me', style: TextStyle(color: Colors.white)), SizedBox(height: 10), ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.pink), onPressed: (){}, child: Text('Recharge - 195 Mulk PKR/SAR/AED/USD - Stripe + JazzCash + Easypaisa'))])))); } }
+class ProfilePage extends StatelessWidget { @override Widget build(BuildContext context){ return SafeArea(child: ListView(padding: EdgeInsets.all(16), children: [SwitchListTile(title: Text('Host Mode ON', style: TextStyle(color: Colors.white)), value: true, onChanged: (v){}), ListTile(title: Text('Level 8 1250/2000 XP', style: TextStyle(color: Colors.white))), ListTile(title: Text('My Diamonds 1250 | My Videos 12', style: TextStyle(color: Colors.white))), ListTile(title: Text('287 Likes | 38K Views | 168 Comments | Live History | Beauty HD', style: TextStyle(color: Colors.white54)))])); } }
