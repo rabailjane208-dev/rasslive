@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:record/record.dart';
+// import 'package:record/record.dart';
 import 'dart:io';
 
 const A = 1238213223;
@@ -173,18 +173,16 @@ class _VideoFeedPageState extends State<VideoFeedPage> {
 }
 class MessengerPage extends StatefulWidget { final int coins; MessengerPage({required this.coins}); @override _MessengerPageState createState()=> _MessengerPageState(); }
 class _MessengerPageState extends State<MessengerPage> {
-  List<String> msgs=["Ali: Hi","Sara: Voice bhejo"]; bool isRec=false; final _rec = AudioRecorder();
+  List<String> msgs=["Ali: Hi","Sara: Voice bhejo"];
   @override
   Widget build(BuildContext context) {
     return Scaffold(appBar: AppBar(title: Text("Messenger - Voice Only + Gift - ${widget.coins} Coins"), backgroundColor: Colors.black),
       body: Column(children: [
         Expanded(child: ListView(children: msgs.map((m)=> Align(alignment: m.startsWith("You")? Alignment.centerRight: Alignment.centerLeft, child: Container(margin: EdgeInsets.all(6), padding: EdgeInsets.all(10), decoration: BoxDecoration(color: m.startsWith("You")? Colors.pink: Colors.white12, borderRadius: BorderRadius.circular(12)), child: Text(m.startsWith("VOICE")? "🎤 Voice Message": m)))).toList())),
         Row(children: [
-          IconButton(icon: Icon(isRec? Icons.stop: Icons.mic, color: Colors.green), onPressed: () async {
-            if(isRec){ var p=await _rec.stop(); setState(()=> {msgs.add("You: VOICE:$p"), isRec=false}); } else { if(await Permission.microphone.request().isGranted){ await _rec.start(const RecordConfig(), path: 'voice.m4a'); setState(()=> isRec=true); } }
-          }),
+          IconButton(icon: Icon(Icons.mic, color: Colors.green), onPressed: (){}),
           IconButton(icon: Icon(Icons.card_giftcard, color: Colors.yellow), onPressed: (){}),
-          Expanded(child: Text(isRec? "Recording...": "Hold Mic for Voice")),
+          Expanded(child: Text("Hold Mic for Voice"))),
         ])
       ]),
     );
