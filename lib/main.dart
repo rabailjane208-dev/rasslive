@@ -182,7 +182,7 @@ class _MessengerPageState extends State<MessengerPage> {
         Row(children: [
           IconButton(icon: Icon(Icons.mic, color: Colors.green), onPressed: (){}),
           IconButton(icon: Icon(Icons.card_giftcard, color: Colors.yellow), onPressed: (){}),
-          Expanded(child: Text("Hold Mic for Voice"))),
+          Expanded(child: Text("Hold Mic for Voice")),
         ])
       ]),
     );
