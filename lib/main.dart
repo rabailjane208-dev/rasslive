@@ -29,7 +29,7 @@ class _TabsState extends State<Tabs> {
     final pages = [
       RassLivePage(onGift: (c){ setState(()=> coins-=c); }, coins: coins),
       PrivateRoomPage(coins: coins, onUse: (c){ setState(()=> coins-=c); }),
-      FamilyRoomPage(),
+      FamilyFullPage(),
       VideoFullPage(onFollow: (){ setState(()=> diamonds+=10); }),
       MessengerFullPage(coins: coins),
       GamesFullPage(coins: coins),
