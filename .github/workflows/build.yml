@@ -19,7 +19,7 @@ jobs:
         run: cp AndroidManifest.xml android/app/src/main/AndroidManifest.xml
       - name: Remove test dir
         run: rm -rf test
-      - name: Patch Kotlin version in settings.gradle.kts
+      - name: Patch Kotlin version
         run: sed -i '/kotlin.android/s/version "[^"]*" apply false/version "2.0.21" apply false/' android/settings.gradle
       - run: flutter pub get
       - run: flutter build apk --release --no-tree-shake-icons
