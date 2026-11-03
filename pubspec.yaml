@@ -1,6 +1,6 @@
 name: rasslive
-description: Rass Live Only - AppID 1238213223
-version: 1.0.0+209
+description: RassLive Final One File
+version: 1.0.0+1
 environment:
   sdk: ">=3.0.0 <4.0.0"
 dependencies:
@@ -8,8 +8,6 @@ dependencies:
     sdk: flutter
   camera: ^0.10.5+9
   permission_handler: ^11.3.1
-  audioplayers: ^6.1.0
-  zego_uikit_prebuilt_live_streaming: ^3.6.5
-  zego_uikit_signaling_plugin: ^2.1.5
+  audioplayers: ^5.0.0
 flutter:
   uses-material-design: true
