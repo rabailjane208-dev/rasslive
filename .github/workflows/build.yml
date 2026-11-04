@@ -13,10 +13,6 @@ jobs:
         with:
           channel: 'stable'
           flutter-version: '3.22.3'
-      - name: Fix SDK 33 and namespace
-        run: |
-          sed -i 's/compileSdk 33/compileSdk 34/g; s/targetSdk 33/targetSdk 34/g; s/compileSdkVersion 33/compileSdkVersion 34/g' android/app/build.gradle || true
-          grep -q 'namespace' android/app/build.gradle || sed -i 's/android {/android { namespace "com.rasslive.world" /' android/app/build.gradle
       - run: flutter pub get
       - run: flutter build apk --release --no-tree-shake-icons
       - uses: actions/upload-artifact@v4
