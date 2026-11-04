@@ -14,6 +14,9 @@ jobs:
           channel: 'stable'
           flutter-version: '3.29.3'
       - run: flutter pub get
+      - run: rm -rf android
+      - run: flutter create . --platforms=android --project-name rasslive_world
+      - run: flutter pub get
       - run: flutter build apk --release --no-tree-shake-icons
       - uses: actions/upload-artifact@v4
         with:
